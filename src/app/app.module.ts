@@ -20,10 +20,12 @@ import { RecipeService } from './services/recipe.service';
 import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { AlertComponent } from './shared/alert/alert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AlertComponent,
     HeaderComponent,
     RecipesComponent,
     RecipeListComponent,

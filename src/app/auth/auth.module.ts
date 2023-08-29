@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
-import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AuthComponent],
-  imports: [BrowserModule, FormsModule, AuthRoutingModule, SharedModule ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AuthRoutingModule,
+    SharedModule,
+    RouterModule,
+  ],
 })
 export class AuthModule {}

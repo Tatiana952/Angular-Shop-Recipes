@@ -8,8 +8,14 @@
 
 # Node
 /node_modules
+/.firebase
+.firebaserc
 npm-debug.log
 yarn-error.log
+
+#service
+**/firebase-debug.log
+**/pubsub-debug.log
 
 # IDEs and editors
 .idea/

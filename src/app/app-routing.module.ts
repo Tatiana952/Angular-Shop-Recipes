@@ -19,12 +19,19 @@ const appRoutes: Routes = [
         (m) => m.ShoppingListModule
       ),
   },
+  {
+    path: '**',
+    redirectTo: '/',
+  },
 ];
 
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(appRoutes, {
+      preloadingStrategy: PreloadAllModules,
+      // useHash: true,
+    }),
   ],
   exports: [RouterModule],
 })

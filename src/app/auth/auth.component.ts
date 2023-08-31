@@ -55,8 +55,10 @@ export class AuthComponent implements OnDestroy {
 
     this.isLoading = true;
     if (this.isLoginMode) {
+      console.log("---------login");
       authObs = this.authServ.login(email, password);
     } else {
+      console.log("---------signUp");
       authObs = this.authServ.signUp(email, password);
     }
     authObs.subscribe(

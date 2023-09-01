@@ -3,15 +3,15 @@
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-          <button type="button" class="btn btn-warning" (click)="onDelete()">Delete</button>
+          <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Сохранить</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Закрыть</button>
+          <button type="button" class="btn btn-warning" (click)="onDelete()">Удалить</button>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Название</label>
             <input
               type="text"
               name="name"
@@ -25,7 +25,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imagePath">Image URL</label>
+            <label for="imagePath">Ссылка на фото блюда</label>
             <input
               type="url"
               name="imagePath"
@@ -45,7 +45,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="desc">Description</label>
+            <label for="desc">Описание</label>
             <textarea
               type="text"
               name="desc"
@@ -94,7 +94,7 @@
                 class="btn btn-success"
                 (click)="onAddIngred()"
               >
-                Add new ingredient
+                Добавить новый ингредиент
               </button>
             </div>
           </div>

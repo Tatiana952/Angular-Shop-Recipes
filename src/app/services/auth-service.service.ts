@@ -129,30 +129,28 @@ export class AuthServiceService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMes = 'Error occurred!';
+    let errorMes = 'Возникла ошибка!';
     if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMes);
+      return throwError(() => errorMes);
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
-        errorMes = 'This e-mail exists!';
+        errorMes = 'Пользователь с такой электронной почтой уже существует';
         break;
       case 'WEAK_PASSWORD : Password should be at least 6 characters':
-        errorMes =
-          'This password is weak! Password should be at least 6 characters.';
+        errorMes = 'Слабый пароль, он должен содержать минимум 6 символов.';
         break;
       case 'EMAIL_NOT_FOUND':
         errorMes =
-          'There is no user record corresponding to this identifier. The user may have been deleted.';
+          'Пользователь с такими данными не найден. Этот аккаунт мог быть удален.';
         break;
       case 'INVALID_PASSWORD':
-        errorMes =
-          'The password is invalid or the user does not have a password.';
+        errorMes = 'Введен неверный пароль.';
         break;
       case 'USER_DISABLED':
-        errorMes = 'The user account has been disabled by an administrator.';
+        errorMes = 'Этот пользователь был отключен администратором.';
         break;
     }
-    return throwError(errorMes);
+    return throwError(() => errorMes);
   }
 }

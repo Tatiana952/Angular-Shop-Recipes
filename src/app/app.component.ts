@@ -12,11 +12,11 @@ export class AppComponent implements OnInit, OnDestroy {
   loadedVar: any;
   constructor(
     private authServ: AuthServiceService,
-    private LoggingService: LoggingService
+    // private LoggingService: LoggingService
   ) {}
   ngOnInit(): void {
     this.authServ.autoLogin();
-    this.LoggingService.printLog('hello from AppComp ngOnInit!')
+    // this.LoggingService.printLog('hello from AppComp ngOnInit!')
   }
   ngOnDestroy(): void {}
   onNavigate(variant: string) {

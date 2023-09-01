@@ -24,7 +24,6 @@ export class AuthComponent implements OnDestroy {
   private closeSub: Subscription = null;
 
   constructor(
-    private fb: UntypedFormBuilder,
     private authServ: AuthServiceService,
     private router: Router,
     private viewContainerRef: ViewContainerRef
@@ -55,15 +54,13 @@ export class AuthComponent implements OnDestroy {
 
     this.isLoading = true;
     if (this.isLoginMode) {
-      console.log("---------login");
       authObs = this.authServ.login(email, password);
     } else {
-      console.log("---------signUp");
       authObs = this.authServ.signUp(email, password);
     }
     authObs.subscribe(
       (resData) => {
-        console.log(resData);
+        // console.log(resData);
         this.isLoading = false;
         this.router.navigate(['/recipes']);
       },

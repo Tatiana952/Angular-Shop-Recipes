@@ -1,30 +1,30 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Recipe Book</a>
+      <a class="navbar-brand" href="#">Книга рецептов</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li routerLinkActive="active"><a routerLink="/recipes" *ngIf="isAuthenticated">Recipes</a></li>
+        <li routerLinkActive="active"><a routerLink="/recipes" *ngIf="isAuthenticated">Рецепты</a></li>
         <li routerLinkActive="active">
-          <a routerLink="/shopping-list">Shopping List</a>
+          <a routerLink="/shopping-list">Список покупок</a>
         </li>
         <li routerLinkActive="active">
-          <a routerLink="/auth" *ngIf="!isAuthenticated">Authorization</a>
+          <a routerLink="/auth" *ngIf="!isAuthenticated">Авторизация</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a style="cursor: pointer" (click)="onLogout()" *ngIf="isAuthenticated">Logout</a></li>
+        <li><a style="cursor: pointer" (click)="onLogout()" *ngIf="isAuthenticated">Выход</a></li>
         <li class="dropdown" appDropdown *ngIf="isAuthenticated">
           <a style="cursor: pointer" class="dropdown-toggle" role="button"
-            >Manage <span class="caret"></span>
+            >Управление<span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a style="cursor: pointer" (click)="onStoreData()">Save Data</a>
+              <a style="cursor: pointer" (click)="onStoreData()">Сохранить список рецептов</a>
             </li>
             <li>
-              <a style="cursor: pointer" (click)="onFetchData()">Fetch Data</a>
+              <a style="cursor: pointer" (click)="onFetchData()">Загрузить список рецептов</a>
             </li>
           </ul>
         </li>

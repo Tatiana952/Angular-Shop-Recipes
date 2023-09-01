@@ -13,6 +13,12 @@ import { AuthServiceService } from '../services/auth-service.service';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authServ: AuthServiceService) {}
 
+  /**
+   * Перехватчик запросов. Перехват происходит только в том случае, если пользователь вошел в систему(существует экземпляр класса User).
+   * @param req запрос
+   * @param next HttpHandler
+   * @returns либо неизмененный запрос, либо модифицированный запрос (с новым параметром {'auth': токен пользователя})
+   */
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler

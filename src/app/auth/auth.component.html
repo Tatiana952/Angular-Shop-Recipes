@@ -39,11 +39,12 @@
           type="submit"
           [disabled]="!authForm.valid"
         >
-          {{ isLoginMode ? "Login" : "Sign Up" }}
+          {{ isLoginMode ? "Войти" : "Регстрация" }}
         </button>
         |
         <button class="btn btn-primary" (click)="onSwitchMode()" type="button">
-          Switch to {{ !isLoginMode ? "Login" : "Sign Up" }}
+          <img src="../../assets/icons/alter.png" alt="" style="width: 16px; height: 16px">
+          {{ !isLoginMode ? "Уже есть аккаунт" : "Регистрация" }}
         </button>
       </div>
     </form>

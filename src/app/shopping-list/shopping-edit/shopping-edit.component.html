@@ -26,6 +26,24 @@
             pattern="^[0-9]+[0-9]*$"
           />
         </div>
+        <div class="col-sm-2 form-group">
+          <label for="measure">Ед. измерения</label>
+          <select
+                name="measure"
+                id="measure"
+                class="form-control"
+                ngModel
+                id="measure"
+                required
+              >
+                <option
+                  *ngFor="let measureSize of measureSizes"
+                  [value]="measureSize"
+                >
+                  {{ measureSize }}
+                </option>
+              </select>
+        </div>
       </div>
       <div class="row">
         <div class="col-xs-12">

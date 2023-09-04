@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" [@slidingRight]>
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" [@slidingRight]
+    >
+    <!-- (change)="show()" -->
       <div class="row">
         <div class="col-xs-12">
           <button
@@ -21,36 +23,38 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="name">Название</label>
+            <label for="title">Название</label>
             <input
               type="text"
-              name="name"
-              formControlName="name"
+              name="title"
+              formControlName="title"
               class="form-control"
-              id="name"
+              id="title"
             />
             <div
               *ngIf="
-                !recipeForm.get('name').valid && recipeForm.get('name').touched
+                !recipeForm.get('title').valid && recipeForm.get('title').touched
               "
             >
               <span
-                *ngIf="recipeForm.get('name').errors?.required"
+                *ngIf="recipeForm.get('title').errors?.required"
                 class="errorForm"
                 >Это поле обязательно. &nbsp;</span
               >
               <span
-                *ngIf="recipeForm.get('name').errors?.titleIsForbidden"
+                *ngIf="recipeForm.get('title').errors?.titleIsForbidden"
                 class="errorForm"
                 >Такой рецепт уже существует. &nbsp;</span
               >
               <span
-                *ngIf="recipeForm.get('name').errors?.maxlength"
+                *ngIf="recipeForm.get('title').errors?.maxlength"
                 class="errorForm"
                 >Превышено допустимое количество символов:
-                {{ recipeForm.get("name").errors.maxlength["requiredLength"] }}.
+                {{ recipeForm.get("title").errors.maxlength["requiredLength"] }}.
                 Вы ввели:
-                {{ recipeForm.get("name").errors.maxlength["actualLength"] }}.&nbsp;
+                {{
+                  recipeForm.get("title").errors.maxlength["actualLength"]
+                }}.&nbsp;
               </span>
             </div>
           </div>
@@ -85,7 +89,7 @@
       </div>
       <div class="row" [@slidingRight] *ngIf="imagePath.value">
         <div class="col-xs-12 center-image">
-          <img [src]="imagePath.value" alt="" class="img-responsive " />
+          <img [src]="imagePath.value" alt="" class="img-responsive" />
         </div>
       </div>
       <div class="row">
@@ -126,15 +130,31 @@
             style="margin-top: 10px"
             [@slidingRight]
           >
-            <div class="col-xs-8">
-              <input type="text" class="form-control" formControlName="name" />
+            <div class="col-xs-5">
+              <input type="text" class="form-control" formControlName="name" id="name"/>
             </div>
             <div class="col-xs-2">
               <input
                 type="number"
                 class="form-control"
                 formControlName="amount"
+                id="amount"
               />
+            </div>
+            <div class="col-xs-3">
+              <select
+                name="measure"
+                class="form-control"
+                formControlName="measure"
+                id="measure"
+              >
+                <option
+                  *ngFor="let measureSize of measureSizes"
+                  [value]="measureSize"
+                >
+                  {{ measureSize }}
+                </option>
+              </select>
             </div>
             <div class="col-xs-2">
               <button

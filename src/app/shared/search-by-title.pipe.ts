@@ -14,7 +14,7 @@ export class SearchByTitlePipe implements PipeTransform {
     }
     const lowerSearch = search.toLowerCase().trim();
     return recipes.filter((recipe) =>
-      recipe.name.toLowerCase().trim().includes(lowerSearch)
+      recipe.title.toLowerCase().trim().includes(lowerSearch)
     );
   }
 }

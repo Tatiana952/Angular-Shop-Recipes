@@ -10,7 +10,8 @@
         (click)="onEdit(i)"
         [@slidingLeft]
       >
-        {{ ingredient.name }} - {{ ingredient.amount }}
+        {{ ingredient.name }} -
+        {{ ingredient.amount + " " + ingredient.measure }}
       </a>
     </ul>
   </div>

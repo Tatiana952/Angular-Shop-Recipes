@@ -23,6 +23,8 @@ export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
 
+  measureSizes: string[] = ['гр.', 'ст.', 'шт.', 'мл.', 'ч.л.', 'ст.л.', 'по вкусу'];
+
   constructor(
     private route: ActivatedRoute,
     private resServ: RecipeService,
@@ -32,7 +34,7 @@ export class RecipeEditComponent implements OnInit {
   ) {}
 
   recipeForm = this.fb.group({
-    name: [
+    title: [
       '',
       [
         Validators.required,
@@ -74,12 +76,16 @@ export class RecipeEditComponent implements OnInit {
                 ingredient.amount,
                 [Validators.required, Validators.pattern(/^[0-9]+[0-9]*$/)],
               ],
+              measure: [
+                ingredient.measure,
+                [Validators.required],
+              ],
             })
           );
         }
       }
       this.recipeForm.patchValue({
-        name: recipe.name,
+        title: recipe.title,
         imagePath: recipe.imagePath,
         desc: recipe.description,
       });
@@ -88,22 +94,24 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private forbiddenTitle(control: FormControl): ValidationErrors {
-    const controlVal = control.value.toLowerCase();
+    let controlVal = control.value
     if (controlVal) {
-      const allRecipes = this.resServ.getRecipes();
-      let errorExist: any = null;
-      allRecipes.forEach((recipe) => {
-        if (recipe.name.toLowerCase().trim().includes(controlVal)) {
-          errorExist = true;
+      controlVal = controlVal.toLowerCase();
+      if (!this.editMode) {
+        const allRecipes = this.resServ.getRecipes();
+        let errorExist: any = null;
+        allRecipes.forEach((recipe) => {
+          if (recipe.title.toLowerCase().trim().includes(controlVal)) {
+            errorExist = true;
+          }
+        });
+        if (errorExist) {
+          return {
+            titleIsForbidden: true,
+          };
         }
-      });
-      if (errorExist) {
-        return {
-          titleIsForbidden: true,
-        };
       }
     }
-
     return null;
   }
 
@@ -111,7 +119,7 @@ export class RecipeEditComponent implements OnInit {
     this.recipeForm.disable();
     this.recipeForm.updateValueAndValidity();
     const newRec = new Recipe(
-      this.recipeForm.value['name'],
+      this.recipeForm.value['title'],
       this.recipeForm.value['desc'],
       this.recipeForm.value['imagePath'],
       this.recipeForm.value['ingredients']
@@ -136,6 +144,10 @@ export class RecipeEditComponent implements OnInit {
         amount: [
           '',
           [Validators.required, Validators.pattern(/^[0-9]+[0-9]*$/)],
+        ],
+        measure: [
+          '',
+          [Validators.required, ],
         ],
       })
     );

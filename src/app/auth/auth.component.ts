@@ -13,11 +13,13 @@ import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
+import { slidingLeftAnimation, slidingRightAnimation } from '../shared/animations';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
+  animations: [slidingLeftAnimation, slidingRightAnimation]
 })
 export class AuthComponent implements OnDestroy {
   @ViewChild(PlaceholderDirective) alertHost: PlaceholderDirective;

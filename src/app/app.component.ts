@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthServiceService } from './services/auth-service.service';
 import { LoggingService } from './logging.service';
+import { ChildrenOutletContexts } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'shop';
   loadedVar: any;
   constructor(
-    private authServ: AuthServiceService,
+    private authServ: AuthServiceService, 
     // private LoggingService: LoggingService
   ) {}
   ngOnInit(): void {
@@ -22,4 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
   onNavigate(variant: string) {
     this.loadedVar = variant;
   }
+
+  
 }

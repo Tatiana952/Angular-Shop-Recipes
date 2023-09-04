@@ -1,50 +1,60 @@
-<div class="row">
-  <div class="col-xs-12">
-    <img
-      [src]="recipeDet.imagePath"
-      [alt]="recipeDet.name"
-      class="img-responsive"
-      style="max-height: 300px"
-    />
+<div [@slidingRight]>
+  <div class="row">
+    <div class="col-xs-12">
+      <img
+        [src]="recipeDet.imagePath"
+        [alt]="recipeDet.name"
+        class="img-responsive"
+        style="max-height: 300px"
+      />
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <h1>{{ recipeDet.name }}</h1>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>{{ recipeDet.name }}</h1>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <div class="btn-group" appDropdown>
-      <button type="button" class="btn btn-primary dropdown-toggle">
-        Настройки рецепта <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li>
-          <a style="cursor: pointer" (click)="addShopping()"
-            >Добавить ингредиенты в список покупок</a
-          >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="btn-group" appDropdown>
+        <button type="button" class="btn btn-primary dropdown-toggle">
+          Настройки рецепта <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a style="cursor: pointer" (click)="addShopping()"
+              >Добавить ингредиенты в список покупок</a
+            >
+          </li>
+          <li>
+            <a style="cursor: pointer" (click)="onEditRecipe()"
+              >Редактировать рецепт</a
+            >
+          </li>
+          <li>
+            <a style="cursor: pointer" (click)="onDeleteRec()"
+              >Удалить рецепт</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let ingredient of recipeDet.ingredients"
+        >
+          {{ ingredient.name }} - {{ ingredient.amount }}
         </li>
-        <li><a style="cursor: pointer" (click)="onEditRecipe()">Редактировать рецепт</a></li>
-        <li><a style="cursor: pointer" (click)="onDeleteRec()">Удалить рецепт</a></li>
       </ul>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let ingredient of recipeDet.ingredients"
-      >
-        {{ ingredient.name }} - {{ ingredient.amount }}
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    {{ recipeDet.description }}
+  <div class="row">
+    <div class="col-xs-12">
+      {{ recipeDet.description }}
+    </div>
   </div>
 </div>

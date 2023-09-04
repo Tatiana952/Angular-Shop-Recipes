@@ -1,12 +1,22 @@
-.label-search{
+.divSearch {
     position: relative;
-    filter: invert(80%) sepia(0%) saturate(5944%) hue-rotate(212deg) brightness(98%) contrast(99%);
-    z-index: 5;
-    top: 25.5px;
-    left: 430px;
 }
 
-.fixed-height{
+.label-search {
+    position: absolute;
+    filter: invert(80%) sepia(0%) saturate(5944%) hue-rotate(212deg) brightness(98%) contrast(99%);
+    z-index: 5;
+    top: 9px;
+    right: 20px;
+}
+
+.fixed-height {
     height: 500px;
-    overflow-y:auto;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+    .fixed-height {
+        margin-bottom: 20px;
+    }
 }

@@ -8,3 +8,10 @@ textarea.ng-invalid.ng-touched {
     font-weight: 600;
     font-size: 1.3rem;
 }
+
+.center-image{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

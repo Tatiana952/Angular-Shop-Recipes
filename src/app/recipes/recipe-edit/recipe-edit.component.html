@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" [@slidingRight]>
       <div class="row">
         <div class="col-xs-12">
           <button
@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" #divRow>
         <div class="col-xs-12">
           <div class="form-group">
             <label for="imagePath">Ссылка на фото блюда</label>
@@ -78,9 +78,9 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <img [src]="imagePath.value" alt="" class="img-responsive" />
+      <div class="row" [@slidingRight] *ngIf="imagePath.value">
+        <div class="col-xs-12 center-image">
+          <img [src]="imagePath.value" alt="" class="img-responsive " />
         </div>
       </div>
       <div class="row">
@@ -119,6 +119,7 @@
             "
             [formGroupName]="i"
             style="margin-top: 10px"
+            [@slidingRight]
           >
             <div class="col-xs-8">
               <input type="text" class="form-control" formControlName="name" />

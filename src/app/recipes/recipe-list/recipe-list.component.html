@@ -1,32 +1,36 @@
-<div class="row">
-  <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewRecipe()">
-      Новый рецепт
-    </button>
+<div [@slidingLeft]>
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-success" (click)="onNewRecipe()">
+        Новый рецепт
+      </button>
+    </div>
   </div>
-</div>
-<hr />
-<div class="row">
-  <div class="col-xs-12">
-    <img src="../../../assets/icons/search.svg" class="label-search" />
-    <input
-      [(ngModel)]="search"
-      name="search"
-      type="text"
-      class="form-control"
-      placeholder="Введите название рецепта для поиска..."
-    />
-    <br />
-    <div class="row">
-      <div class="col-xs-12 fixed-height">
-        <app-recipe-item
-          *ngFor="
-            let recipeEl of recipes | searchByTitle : search;
-            let i = index
-          "
-          [recipe]="recipeEl"
-          [index]="i"
-        ></app-recipe-item>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="divSearch">
+        <img src="../../../assets/icons/search.svg" class="label-search" />
+        <input
+          [(ngModel)]="search"
+          name="search"
+          type="text"
+          class="form-control"
+          placeholder="Введите название рецепта для поиска..."
+        />
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-xs-12 fixed-height">
+          <app-recipe-item
+            *ngFor="
+              let recipeEl of recipes | searchByTitle : search;
+              let i = index
+            "
+            [recipe]="recipeEl"
+            [index]="i"
+          ></app-recipe-item>
+        </div>
       </div>
     </div>
   </div>

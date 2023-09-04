@@ -1,0 +1,9 @@
+.big-container {
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden
+}
+
+.big-container .container{
+    padding-bottom: 115px;
+}

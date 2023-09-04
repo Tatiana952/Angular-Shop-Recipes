@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" [@slidingLeft]>
   <div class="col-xs-10">
     <app-shopping-edit></app-shopping-edit>
     <hr />
@@ -8,8 +8,10 @@
         style="cursor: pointer"
         *ngFor="let ingredient of ingredients; let i = index"
         (click)="onEdit(i)"
+        [@slidingLeft]
       >
-        {{ ingredient.name }} - {{ ingredient.amount }}
+        {{ ingredient.name }} -
+        {{ ingredient.amount + " " + ingredient.measure }}
       </a>
     </ul>
   </div>

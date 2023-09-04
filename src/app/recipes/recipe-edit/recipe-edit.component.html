@@ -1,24 +1,62 @@
 <div class="row">
   <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" [@slidingRight]
+    >
+    <!-- (change)="show()" -->
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Сохранить</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Закрыть</button>
-          <button type="button" class="btn btn-warning" (click)="onDelete()">Удалить</button>
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!recipeForm.valid"
+          >
+            Сохранить</button
+          >&nbsp;
+          <button type="button" class="btn btn-danger" (click)="onCancel()">
+            Закрыть</button
+          >&nbsp;
+          <button type="button" class="btn btn-warning" (click)="onDelete()">
+            Удалить
+          </button>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="name">Название</label>
+            <label for="title">Название</label>
             <input
               type="text"
-              name="name"
-              formControlName="name"
+              name="title"
+              formControlName="title"
               class="form-control"
-              id="name"
+              id="title"
             />
+            <div
+              *ngIf="
+                !recipeForm.get('title').valid && recipeForm.get('title').touched
+              "
+            >
+              <span
+                *ngIf="recipeForm.get('title').errors?.required"
+                class="errorForm"
+                >Это поле обязательно. &nbsp;</span
+              >
+              <span
+                *ngIf="recipeForm.get('title').errors?.titleIsForbidden"
+                class="errorForm"
+                >Такой рецепт уже существует. &nbsp;</span
+              >
+              <span
+                *ngIf="recipeForm.get('title').errors?.maxlength"
+                class="errorForm"
+                >Превышено допустимое количество символов:
+                {{ recipeForm.get("title").errors.maxlength["requiredLength"] }}.
+                Вы ввели:
+                {{
+                  recipeForm.get("title").errors.maxlength["actualLength"]
+                }}.&nbsp;
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -34,11 +72,23 @@
               formControlName="imagePath"
               #imagePath
             />
+            <div
+              *ngIf="
+                !recipeForm.get('imagePath').valid &&
+                recipeForm.get('imagePath').touched
+              "
+            >
+              <span
+                *ngIf="recipeForm.get('imagePath').errors?.required"
+                class="errorForm"
+                >Это поле обязательно</span
+              >
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
+      <div class="row" [@slidingRight] *ngIf="imagePath.value">
+        <div class="col-xs-12 center-image">
           <img [src]="imagePath.value" alt="" class="img-responsive" />
         </div>
       </div>
@@ -54,6 +104,17 @@
               formControlName="desc"
               rows="6"
             ></textarea>
+            <div
+              *ngIf="
+                !recipeForm.get('desc').valid && recipeForm.get('desc').touched
+              "
+            >
+              <span
+                *ngIf="recipeForm.get('desc').errors?.required"
+                class="errorForm"
+                >Это поле обязательно</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -66,24 +127,43 @@
               let i = index
             "
             [formGroupName]="i"
-            style="margin-top: 10px;"
+            style="margin-top: 10px"
+            [@slidingRight]
           >
-            <div class="col-xs-8">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="name"
-              />
+            <div class="col-xs-5">
+              <input type="text" class="form-control" formControlName="name" id="name"/>
             </div>
             <div class="col-xs-2">
               <input
                 type="number"
                 class="form-control"
                 formControlName="amount"
+                id="amount"
               />
             </div>
+            <div class="col-xs-3">
+              <select
+                name="measure"
+                class="form-control"
+                formControlName="measure"
+                id="measure"
+              >
+                <option
+                  *ngFor="let measureSize of measureSizes"
+                  [value]="measureSize"
+                >
+                  {{ measureSize }}
+                </option>
+              </select>
+            </div>
             <div class="col-xs-2">
-              <button type="button" class="btn btn-danger" (click)="onDelIngred(i)">X</button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="onDelIngred(i)"
+              >
+                X
+              </button>
             </div>
           </div>
           <hr />

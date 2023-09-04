@@ -4,11 +4,13 @@ import { ShoppingListService } from 'src/app/services/shopping-list.service';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { slidingRightAnimation } from 'src/app/shared/animations';
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css'],
+  animations: [slidingRightAnimation]
 })
 export class RecipeDetailComponent implements OnInit {
   recipeDet: Recipe;

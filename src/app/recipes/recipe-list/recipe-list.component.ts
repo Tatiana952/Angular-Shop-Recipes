@@ -10,8 +10,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./recipe-list.component.css'],
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-  recipes: Recipe[];
-  subscription: Subscription;
+  recipes: Recipe[] = [];
+  subscription: Subscription = null;
+  search: string = null;
 
   constructor(private recipesService: RecipeService, private router: Router, private route: ActivatedRoute) {}
   

@@ -3,9 +3,19 @@
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Сохранить</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Закрыть</button>
-          <button type="button" class="btn btn-warning" (click)="onDelete()">Удалить</button>
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!recipeForm.valid"
+          >
+            Сохранить</button
+          >&nbsp;
+          <button type="button" class="btn btn-danger" (click)="onCancel()">
+            Закрыть</button
+          >&nbsp;
+          <button type="button" class="btn btn-warning" (click)="onDelete()">
+            Удалить
+          </button>
         </div>
       </div>
       <div class="row">
@@ -19,6 +29,25 @@
               class="form-control"
               id="name"
             />
+            <div
+              *ngIf="
+                !recipeForm.get('name').valid && recipeForm.get('name').touched
+              "
+            >
+              <span
+                *ngIf="recipeForm.get('name').errors?.required"
+                class="errorForm"
+                >Это поле обязательно</span
+              >
+              <span
+                *ngIf="recipeForm.get('name').errors?.maxlength"
+                class="errorForm"
+                >Превышено допустимое количество символов:
+                {{ recipeForm.get("name").errors.maxlength["requiredLength"] }}.
+                Вы ввели:
+                {{ recipeForm.get("name").errors.maxlength["actualLength"] }}.
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -34,6 +63,18 @@
               formControlName="imagePath"
               #imagePath
             />
+            <div
+              *ngIf="
+                !recipeForm.get('imagePath').valid &&
+                recipeForm.get('imagePath').touched
+              "
+            >
+              <span
+                *ngIf="recipeForm.get('imagePath').errors?.required"
+                class="errorForm"
+                >Это поле обязательно</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -54,6 +95,17 @@
               formControlName="desc"
               rows="6"
             ></textarea>
+            <div
+              *ngIf="
+                !recipeForm.get('desc').valid && recipeForm.get('desc').touched
+              "
+            >
+              <span
+                *ngIf="recipeForm.get('desc').errors?.required"
+                class="errorForm"
+                >Это поле обязательно</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -66,14 +118,10 @@
               let i = index
             "
             [formGroupName]="i"
-            style="margin-top: 10px;"
+            style="margin-top: 10px"
           >
             <div class="col-xs-8">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="name"
-              />
+              <input type="text" class="form-control" formControlName="name" />
             </div>
             <div class="col-xs-2">
               <input
@@ -83,7 +131,13 @@
               />
             </div>
             <div class="col-xs-2">
-              <button type="button" class="btn btn-danger" (click)="onDelIngred(i)">X</button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="onDelIngred(i)"
+              >
+                X
+              </button>
             </div>
           </div>
           <hr />

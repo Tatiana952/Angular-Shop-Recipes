@@ -70,16 +70,6 @@ export class AuthComponent implements OnDestroy {
           this.isLoading = false;
         },
       }
-      // (resData) => {
-      //   // console.log(resData);
-      //   this.isLoading = false;
-      //   this.router.navigate(['/recipes']);
-      // },
-      // (errorMes) => {
-      //   this.error = errorMes;
-      //   this.showErrorAlert(errorMes);
-      //   this.isLoading = false;
-      // }
     );
     authForm.reset();
   }

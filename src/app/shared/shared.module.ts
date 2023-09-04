@@ -6,6 +6,9 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { PlaceholderDirective } from './placeholder/placeholder.directive';
 import { DropdownDirective } from './dropdown.directive';
 import { LoggingService } from '../logging.service';
+import { ShortenPipe } from './shorten.pipe';
+import { SearchByTitlePipe } from './search-by-title.pipe';
+import { HighltghtDirective } from './highltght.directive';
 
 @NgModule({
   declarations: [
@@ -13,6 +16,9 @@ import { LoggingService } from '../logging.service';
     LoadingSpinnerComponent,
     PlaceholderDirective,
     DropdownDirective,
+    ShortenPipe,
+    SearchByTitlePipe,
+    HighltghtDirective,
   ],
   imports: [CommonModule],
   exports: [
@@ -20,6 +26,8 @@ import { LoggingService } from '../logging.service';
     LoadingSpinnerComponent,
     PlaceholderDirective,
     DropdownDirective,
+    ShortenPipe,
+    SearchByTitlePipe
   ],
   // providers: [LoggingService],
 })

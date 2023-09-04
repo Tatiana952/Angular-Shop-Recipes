@@ -1,0 +1,12 @@
+.label-search{
+    position: relative;
+    filter: invert(80%) sepia(0%) saturate(5944%) hue-rotate(212deg) brightness(98%) contrast(99%);
+    z-index: 5;
+    top: 25.5px;
+    left: 430px;
+}
+
+.fixed-height{
+    height: 500px;
+    overflow-y:auto;
+}

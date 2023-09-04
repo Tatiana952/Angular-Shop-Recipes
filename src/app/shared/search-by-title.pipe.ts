@@ -12,13 +12,9 @@ export class SearchByTitlePipe implements PipeTransform {
     if (!search) {
       return recipes;
     }
-    const lowerSearch = search.toLowerCase();
-    let filtered = recipes.filter((recipe) =>
-      recipe.name.toLowerCase().includes(lowerSearch)
-    );
-    console.log(filtered);
+    const lowerSearch = search.toLowerCase().trim();
     return recipes.filter((recipe) =>
-      recipe.name.toLowerCase().includes(lowerSearch)
+      recipe.name.toLowerCase().trim().includes(lowerSearch)
     );
   }
 }

@@ -8,7 +8,6 @@ import { DropdownDirective } from './dropdown.directive';
 import { LoggingService } from '../logging.service';
 import { ShortenPipe } from './shorten.pipe';
 import { SearchByTitlePipe } from './search-by-title.pipe';
-import { HighltghtDirective } from './highltght.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,6 @@ import { HighltghtDirective } from './highltght.directive';
     DropdownDirective,
     ShortenPipe,
     SearchByTitlePipe,
-    HighltghtDirective,
   ],
   imports: [CommonModule],
   exports: [

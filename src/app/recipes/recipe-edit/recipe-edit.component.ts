@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
+  FormControl,
   UntypedFormArray,
   UntypedFormBuilder,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -30,7 +32,14 @@ export class RecipeEditComponent implements OnInit {
   ) {}
 
   recipeForm = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(20)]],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(20),
+        this.forbiddenTitle.bind(this),
+      ],
+    ],
     imagePath: ['', [Validators.required]],
     desc: ['', [Validators.required]],
     ingredients: this.fb.array([]),
@@ -69,7 +78,6 @@ export class RecipeEditComponent implements OnInit {
           );
         }
       }
-
       this.recipeForm.patchValue({
         name: recipe.name,
         imagePath: recipe.imagePath,
@@ -77,6 +85,26 @@ export class RecipeEditComponent implements OnInit {
       });
       this.recipeForm.setControl('ingredients', recIngredients);
     }
+  }
+
+  private forbiddenTitle(control: FormControl): ValidationErrors {
+    const controlVal = control.value.toLowerCase();
+    if (controlVal) {
+      const allRecipes = this.resServ.getRecipes();
+      let errorExist: any = null;
+      allRecipes.forEach((recipe) => {
+        if (recipe.name.toLowerCase().trim().includes(controlVal)) {
+          errorExist = true;
+        }
+      });
+      if (errorExist) {
+        return {
+          titleIsForbidden: true,
+        };
+      }
+    }
+
+    return null;
   }
 
   onSubmit() {

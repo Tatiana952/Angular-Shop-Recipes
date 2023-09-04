@@ -37,7 +37,12 @@
               <span
                 *ngIf="recipeForm.get('name').errors?.required"
                 class="errorForm"
-                >Это поле обязательно</span
+                >Это поле обязательно. &nbsp;</span
+              >
+              <span
+                *ngIf="recipeForm.get('name').errors?.titleIsForbidden"
+                class="errorForm"
+                >Такой рецепт уже существует. &nbsp;</span
               >
               <span
                 *ngIf="recipeForm.get('name').errors?.maxlength"
@@ -45,7 +50,7 @@
                 >Превышено допустимое количество символов:
                 {{ recipeForm.get("name").errors.maxlength["requiredLength"] }}.
                 Вы ввели:
-                {{ recipeForm.get("name").errors.maxlength["actualLength"] }}.
+                {{ recipeForm.get("name").errors.maxlength["actualLength"] }}.&nbsp;
               </span>
             </div>
           </div>

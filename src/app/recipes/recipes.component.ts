@@ -10,7 +10,7 @@ import { slideInAnimation } from '../shared/animations';
 })
 export class RecipesComponent implements OnInit {
 
-  constructor(private contexts: ChildrenOutletContexts) {}
+  constructor() {}
 
 
   ngOnInit() {

@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from '../recipe.model';
 import { DataStorageService } from 'src/app/services/data-storage.service';
-import { imgAnimation, slidingRightAnimation } from '../../shared/animations';
+import { slidingRightAnimation } from '../../shared/animations';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -20,10 +20,6 @@ import { imgAnimation, slidingRightAnimation } from '../../shared/animations';
 export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
-  position: string;
-  @ViewChild('divRow')
-  divRow: ElementRef;
-  divRowWidth: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,11 +42,6 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = params['id'] != null;
       this.initForm();
     });
-  }
-
-  ngAfterViewInit() {
-    this.divRowWidth = this.divRow.nativeElement.offsetWidth - 30;
-    console.log(this.divRowWidth);
   }
 
   // show() {

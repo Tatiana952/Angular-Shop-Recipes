@@ -30,7 +30,6 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(appRoutes, {
       preloadingStrategy: PreloadAllModules,
-      // useHash: true,
     }),
   ],
   exports: [RouterModule],

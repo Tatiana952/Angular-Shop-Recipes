@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ChildrenOutletContexts } from '@angular/router';
-import { slideInAnimation } from '../shared/animations';
 
 @Component({
   selector: 'app-recipes',
@@ -8,12 +6,6 @@ import { slideInAnimation } from '../shared/animations';
   styleUrls: ['./recipes.component.css'],
 
 })
-export class RecipesComponent implements OnInit {
-
-  constructor() {}
-
-
-  ngOnInit() {
-  }
+export class RecipesComponent{
 
 }

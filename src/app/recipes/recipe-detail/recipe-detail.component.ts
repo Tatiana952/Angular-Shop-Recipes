@@ -1,45 +1,56 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe.model';
 import { ShoppingListService } from 'src/app/services/shopping-list.service';
-import { Ingredient } from 'src/app/shared/ingredient.model';
+import { Ingredient } from 'src/app/shared/models/ingredient.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { slidingRightAnimation } from 'src/app/shared/animations';
+import { DataStorageService } from 'src/app/services/data-storage.service';
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css'],
-  animations: [slidingRightAnimation]
+  animations: [slidingRightAnimation],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipeDet: Recipe;
-  id: number;
+  public recipeDetails: Recipe;
+  private id: number;
 
   constructor(
-    private recServ: RecipeService,
+    private router: Router,
     private route: ActivatedRoute,
-    private router: Router
+    private recipeService: RecipeService,
+    private dataStorageService: DataStorageService
   ) {}
-
-  addShopping() {
-    this.recServ.fillShoppingList(this.recipeDet.ingredients);
-  }
 
   ngOnInit(): void {
     const id = this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
-      this.recipeDet = this.recServ.getRecipe(this.id);
+      this.recipeDetails = this.recipeService.getRecipe(this.id);
     });
   }
 
-  onEditRecipe() {
-    // this.router.navigate(['edit'], { relativeTo: this.route });
+  /**
+   * Метод добавляет все ингредиенты открытого рецепта в список покупок
+   */
+  public addIngredientsToShoppingList() {
+    this.recipeService.fillShoppingList(this.recipeDetails.ingredients);
+  }
+
+  /**
+   * Метод отправляет открытый рецепт на редактирование
+   */
+  public onEditRecipe() {
     this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }
 
-  onDeleteRec(){
-    this.recServ.deleteRec(this.id);
-    this.router.navigate(['/recipes'])
+  /**
+   * Метод удаляет открытый рецепт из базы
+   */
+  public onDeleteRecipe() {
+    this.recipeService.deleteRec(this.id);
+    this.dataStorageService.storeRecipes();
+    this.router.navigate(['/recipes']);
   }
 }

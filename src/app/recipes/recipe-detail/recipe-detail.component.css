@@ -1,0 +1,7 @@
+.dropdown-menu li a{
+    cursor: pointer;
+}
+
+.col-xs-12 .img-responsive {
+    max-height: 300px
+}

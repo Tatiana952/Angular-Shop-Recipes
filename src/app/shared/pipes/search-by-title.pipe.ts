@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Recipe } from '../recipes/recipe.model';
+import { Recipe } from '../../recipes/recipe.model';
 
 @Pipe({
   name: 'searchByTitle',

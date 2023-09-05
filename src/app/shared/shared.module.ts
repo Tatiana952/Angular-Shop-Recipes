@@ -3,17 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { AlertComponent } from './alert/alert.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { PlaceholderDirective } from './placeholder/placeholder.directive';
 import { DropdownDirective } from './dropdown.directive';
-import { LoggingService } from '../logging.service';
-import { ShortenPipe } from './shorten.pipe';
-import { SearchByTitlePipe } from './search-by-title.pipe';
+import { ShortenPipe } from './pipes/shorten.pipe';
+import { SearchByTitlePipe } from './pipes/search-by-title.pipe';
 
 @NgModule({
   declarations: [
     AlertComponent,
     LoadingSpinnerComponent,
-    PlaceholderDirective,
     DropdownDirective,
     ShortenPipe,
     SearchByTitlePipe,
@@ -22,11 +19,9 @@ import { SearchByTitlePipe } from './search-by-title.pipe';
   exports: [
     AlertComponent,
     LoadingSpinnerComponent,
-    PlaceholderDirective,
     DropdownDirective,
     ShortenPipe,
-    SearchByTitlePipe
+    SearchByTitlePipe,
   ],
-  // providers: [LoggingService],
 })
 export class SharedModule {}

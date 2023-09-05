@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { Recipe } from '../recipe.model';
+import { Recipe } from '../../shared/models/recipe.model';
 import { DataStorageService } from 'src/app/services/data-storage.service';
 import { slidingRightAnimation } from '../../shared/animations';
 
@@ -95,7 +95,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод отправки формы, если она корректна.
+   * Метод отправки формы с данными о рецепте, если она корректна.
    * @returns Завершение метода, если форма некорректна.
    */
   public onSubmit() {
@@ -175,7 +175,7 @@ export class RecipeEditComponent implements OnInit {
       controlValue = controlValue.toLowerCase();
       if (!this.editMode) {
         const allRecipes = this.recipeService.getRecipes();
-        let errorExist: any = null;
+        let errorExist: boolean;
         allRecipes.forEach((recipe) => {
           if (recipe.title.toLowerCase().trim().includes(controlValue)) {
             errorExist = true;

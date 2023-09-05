@@ -156,33 +156,33 @@ export class AuthService {
   }
 
   /**
-   * Метод передачи текста ошибки подписантам
+   * Метод проброса ошибки с соответствующим описанием на русском
    * @param errorResponse Ответ от сервера с ошибкой
-   * @returns Оbservable, создающее экземпляр ошибки, которая незамедлительно передается потребителю.
+   * @returns Оbservable, создающий экземпляр ошибки, которая незамедлительно передается потребителю
    */
   private handleError(errorResponse: HttpErrorResponse) {
-    let errorMesssage = 'Возникла ошибка!';
+    const dictionary = new Map<string, string>([
+      [
+        'EMAIL_EXISTS',
+        'Пользователь с такой электронной почтой уже существует.',
+      ],
+      [
+        'WEAK_PASSWORD',
+        'Слабый пароль, он должен содержать минимум 6 символов.',
+      ],
+      [
+        'EMAIL_NOT_FOUND',
+        'Пользователь с такими данными не найден. Этот аккаунт мог быть удален.',
+      ],
+      ['INVALID_PASSWORD', 'Введен неверный пароль.'],
+      ['USER_DISABLED', 'Этот пользователь был отключен администратором.'],
+    ]);
+
+    let errorMessage = 'Возникла ошибка!';
     if (!errorResponse.error || !errorResponse.error.error) {
-      return throwError(() => errorMesssage);
+      return throwError(() => errorMessage);
     }
-    switch (errorResponse.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMesssage = 'Пользователь с такой электронной почтой уже существует';
-        break;
-      case 'WEAK_PASSWORD : Password should be at least 6 characters':
-        errorMesssage = 'Слабый пароль, он должен содержать минимум 6 символов.';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errorMesssage =
-          'Пользователь с такими данными не найден. Этот аккаунт мог быть удален.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMesssage = 'Введен неверный пароль.';
-        break;
-      case 'USER_DISABLED':
-        errorMesssage = 'Этот пользователь был отключен администратором.';
-        break;
-    }
-    return throwError(() => errorMesssage);
+    errorMessage = dictionary.get(errorResponse.error.error.message);
+    return throwError(() => errorMessage);
   }
 }

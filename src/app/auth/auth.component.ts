@@ -29,7 +29,7 @@ export class AuthComponent implements OnDestroy {
     private viewContainerRef: ViewContainerRef
   ) {}
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     if (this.closeSub) {
       this.closeSub.unsubscribe();
     }

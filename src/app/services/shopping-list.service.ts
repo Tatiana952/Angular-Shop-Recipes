@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Ingredient } from '../shared/models/ingredient.model';
 import { Subject } from 'rxjs';
 
@@ -6,16 +6,14 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ShoppingListService {
-  startedEditing = new Subject<number>();
+  public startedEditing = new Subject<number>();
+  public ingredientsChanged = new Subject<Ingredient[]>();
 
   private ingredients: Ingredient[] = [
     new Ingredient('Яблоки зеленые', 5, 'шт.'),
     new Ingredient('Помидоры Абхазия', 3, 'шт.'),
     new Ingredient('Перец болгарский', 3, 'шт.'),
   ];
-  ingredientsChanged = new Subject<Ingredient[]>();
-
-  constructor() {}
 
   public getShoppingList() {
     return this.ingredients.slice();
@@ -26,10 +24,7 @@ export class ShoppingListService {
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  public addManyToSL(ingredients: Ingredient[]) {
-    // for (let ingredient of ingredients) {
-    //   this.addToShoppingList(ingredient);
-    // }
+  public addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.ingredients.push(...ingredients);
     this.ingredientsChanged.next(this.ingredients.slice());
   }

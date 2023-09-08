@@ -1,18 +1,34 @@
-<div class="row" [@slidingLeft]>
-  <div class="col-xs-10">
+<div class="row h-100 justify-content-center" [@slidingLeft]>
+  <div class="col-md-10 d-flex flex-column h-100">
     <app-shopping-edit></app-shopping-edit>
-    <hr />
-    <ul class="list-group">
-      <a
-        class="list-group-item"
-        style="cursor: pointer"
-        *ngFor="let ingredient of ingredients; let i = index"
-        (click)="onEdit(i)"
+    <div
+      class="list-group mt-4 w-100 overflow-y-auto"
+      appSingleFocus
+      #ulList="singleFocus"
+    >
+      <app-list-item-element
         [@slidingLeft]
+        class="list-group-item me-2"
+        *ngFor="let ingredient of ingredients; let i = index"
+        [selected]="ulList.hasItem(i)"
+        (click)="ulList.toggleItem(i)"
       >
-        {{ ingredient.name }} -
-        {{ ingredient.amount + " " + ingredient.measure }}
-      </a>
-    </ul>
+        <div class="row row-col-auto">
+          <div class="col-10">
+            {{ ingredient.name }} -
+            {{ ingredient.amount + " " + ingredient.measure }}
+          </div>
+          <div class="col-2 d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="onDeleteIngredient(i)"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      </app-list-item-element>
+    </div>
   </div>
 </div>

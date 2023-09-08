@@ -1,22 +1,42 @@
 .divSearch {
-    position: relative;
+  position: relative;
 }
 
 .label-search {
-    position: absolute;
-    filter: invert(80%) sepia(0%) saturate(5944%) hue-rotate(212deg) brightness(98%) contrast(99%);
-    z-index: 5;
-    top: 9px;
-    right: 20px;
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  filter: invert(80%) sepia(0%) saturate(5944%) hue-rotate(212deg) brightness(98%) contrast(99%);
+  z-index: 5;
+  top: 9px;
+  right: 20px;
 }
 
-.fixed-height {
-    height: 500px;
-    overflow-y: auto;
+.flex-height {
+  flex: 5%;
 }
 
-@media only screen and (max-width: 1000px) {
-    .fixed-height {
-        margin-bottom: 20px;
-    }
+.flex-height2 {
+  flex: 95%;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1400px) {
+  .label-search {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .label-search {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .flex-height {
+    flex: none;
+  }
+
+  .flex-height2 {
+    flex: none;
+  }
 }

@@ -1,1 +1,9 @@
-<h3 [@slidingRight]>Пожалуйста, выберите рецепт</h3>
+<div
+  [ngClass]="
+    innerWidth > 768
+      ? 'h-100 d-flex justify-content-center align-items-center'
+      : 'd-block text-center'
+  "
+>
+  <h3 [@slidingRight]>Пожалуйста, выберите рецепт</h3>
+</div>

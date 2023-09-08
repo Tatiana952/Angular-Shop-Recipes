@@ -1,45 +1,66 @@
-import { Component, OnInit } from '@angular/core';
-import { Recipe } from '../recipe.model';
-import { ShoppingListService } from 'src/app/services/shopping-list.service';
-import { Ingredient } from 'src/app/shared/ingredient.model';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Recipe } from '../../shared/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { slidingRightAnimation } from 'src/app/shared/animations';
+import { DataStorageService } from 'src/app/services/data-storage.service';
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css'],
-  animations: [slidingRightAnimation]
+  animations: [slidingRightAnimation],
 })
 export class RecipeDetailComponent implements OnInit {
-  recipeDet: Recipe;
-  id: number;
+  public recipeDetails: Recipe;
+  public innerWidth: number;
+  public message: string;
+  private id: number;
 
-  constructor(
-    private recServ: RecipeService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  addShopping() {
-    this.recServ.fillShoppingList(this.recipeDet.ingredients);
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
   }
 
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private recipeService: RecipeService,
+    private dataStorageService: DataStorageService
+  ) {}
+
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
     const id = this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
-      this.recipeDet = this.recServ.getRecipe(this.id);
+      this.recipeDetails = this.recipeService.getRecipe(this.id);
     });
   }
 
-  onEditRecipe() {
-    // this.router.navigate(['edit'], { relativeTo: this.route });
+  /**
+   * Метод добавляет все ингредиенты рецепта в список покупок
+   */
+  public addIngredientsToShoppingList(): void {
+    this.recipeService.fillShoppingList(this.recipeDetails.ingredients);
+    this.message = 'Вы добавили ингредиенты в корзину';
+    setTimeout(() => {
+      this.message = '';
+    }, 3500);
+  }
+
+  /**
+   * Метод отправляет рецепт на редактирование
+   */
+  public onEditRecipe(): void {
     this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }
 
-  onDeleteRec(){
-    this.recServ.deleteRec(this.id);
-    this.router.navigate(['/recipes'])
+  /**
+   * Метод удаляет рецепт из базы
+   */
+  public onDeleteRecipe(): void {
+    this.recipeService.deleteRecipe(this.id);
+    this.dataStorageService.storeRecipes();
+    this.router.navigate(['/recipes']);
   }
 }

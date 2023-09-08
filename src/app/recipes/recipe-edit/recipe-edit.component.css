@@ -1,17 +1,32 @@
 input.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
-    border: 1px solid red;
+  border: 1px solid red;
 }
 
 .errorForm {
-    color: red;
-    font-weight: 600;
-    font-size: 1.3rem;
+  color: red;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
-.center-image{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.my-image-details {
+  max-height: 200px;
+}
+
+.my-form {
+  position: relative;
+}
+
+.my-buttons-fixed {
+  background-color: white;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .my-details {
+    padding-bottom: 100px;
+  }
 }

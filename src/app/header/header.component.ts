@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DataStorageService } from '../services/data-storage.service';
-import { AuthServiceService } from '../services/auth-service.service';
+import { AuthService } from '../services/auth-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,29 +9,24 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
-  private userSubs: Subscription;
-  constructor(
-    private dataStor: DataStorageService,
-    private authServ: AuthServiceService
-  ) {}
+  private userSubscription: Subscription;
+
+  constructor(private authService: AuthService) {}
+
   ngOnDestroy(): void {
-    this.userSubs.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
+
   ngOnInit(): void {
-    this.userSubs = this.authServ.userSubj.subscribe((user) => {
+    this.userSubscription = this.authService.user.subscribe((user) => {
       this.isAuthenticated = !!user;
     });
   }
 
-  onStoreData() {
-    this.dataStor.storeRecipes();
-  }
-
-  onFetchData() {
-    this.dataStor.fetchRecipes().subscribe();
-  }
-
-  onLogout() {
-    this.authServ.logout();
+  /**
+   * Метод деавторизации.
+   */
+  onLogout(): void {
+    this.authService.logout();
   }
 }

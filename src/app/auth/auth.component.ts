@@ -1,21 +1,12 @@
+import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
+import { NgForm, UntypedFormBuilder } from '@angular/forms';
 import {
-  Component,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { NgForm } from '@angular/forms';
-import {
-  AuthResponceData,
-  AuthServiceService,
+  AuthResponseData,
+  AuthService,
 } from '../services/auth-service.service';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
-import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import {
   slidingLeftAnimation,
   slidingRightAnimation,
@@ -28,69 +19,69 @@ import {
   animations: [slidingLeftAnimation, slidingRightAnimation],
 })
 export class AuthComponent implements OnDestroy {
-  @ViewChild(PlaceholderDirective) alertHost: PlaceholderDirective;
   private closeSub: Subscription = null;
+  public isLoginMode = true;
+  public isLoading = false;
 
   constructor(
-    private authServ: AuthServiceService,
     private router: Router,
+    private authService: AuthService,
     private viewContainerRef: ViewContainerRef
   ) {}
- 
+
   ngOnDestroy(): void {
     if (this.closeSub) {
       this.closeSub.unsubscribe();
     }
   }
 
-  isLoginMode = true;
-  isLoading = false;
-  // private isLoading = new BehaviorSubject<boolean>(false)
-  error: string = null;
-
-  onSwitchMode() {
+  /**
+   * Метод переключения режима. Авторизация <=> Регистрация.
+   */
+  public onSwitchMode(): void {
     this.isLoginMode = !this.isLoginMode;
   }
 
-  onSubmit(authForm: NgForm) {
+  /**
+   * Метод передачи данных из формы на сервер для авторизации/регистрации.
+   * @param authForm Форма с реквизитами для входа
+   * @returns Завершение метода, если форма заполнена некорректно
+   */
+  public onSubmit(authForm: NgForm) {
     if (!authForm.valid) {
       return;
     }
     this.isLoading = true;
     const email = authForm.value.email;
     const password = authForm.value.password;
+    let authObservable: Observable<AuthResponseData>;
 
-    let authObs: Observable<AuthResponceData>;
-
-    
     if (this.isLoginMode) {
-      authObs = this.authServ.login(email, password);
+      authObservable = this.authService.login(email, password);
     } else {
-      authObs = this.authServ.signUp(email, password);
+      authObservable = this.authService.signUp(email, password);
     }
-    authObs.subscribe({
-      next: (resData) => {
+    authObservable.subscribe({
+      next: () => {
         this.router.navigate(['/recipes']);
       },
-      error: (errorMes) => {
-        this.error = errorMes;
-        this.showErrorAlert(errorMes);
+      error: (errorMessage) => {
+        this.showErrorAlertComponent(errorMessage);
         this.isLoading = false;
       },
     });
     authForm.reset();
   }
 
-  onHandleError() {
-    this.error = null;
-  }
-
-  private showErrorAlert(errorMes: string) {
+  /**
+   * Метод создания AlertComponent c текстом конкретной ошибки авторизации.
+   * @param errorMessage Текст описания ошибки
+   */
+  private showErrorAlertComponent(errorMessage: string) {
     const alertComp = this.viewContainerRef;
     alertComp.clear();
     const compRef = alertComp.createComponent(AlertComponent);
-    // const alertComp = this.viewContainerRef.createComponent(AlertComponent);
-    compRef.instance.message = errorMes;
+    compRef.instance.message = errorMessage;
     this.closeSub = compRef.instance.close.subscribe(() => {
       this.closeSub.unsubscribe();
       alertComp.clear();

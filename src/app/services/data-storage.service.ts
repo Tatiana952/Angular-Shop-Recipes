@@ -1,33 +1,34 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RecipeService } from './recipe.service';
-import { Recipe } from '../recipes/recipe.model';
-import { exhaustMap, map, take, tap } from 'rxjs';
-import { AuthServiceService } from './auth-service.service';
+import { Recipe } from '../shared/models/recipe.model';
+import { Observable, Subscription, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataStorageService {
-  constructor(
-    private http: HttpClient,
-    private recServ: RecipeService,
-    private authServ: AuthServiceService
-  ) {}
+  constructor(private http: HttpClient, private recipeService: RecipeService) {}
 
-  storeRecipes() {
-    const recipes = this.recServ.getRecipes();
+  /**
+   * Метод сохранения списка рецептов в базу данных Firebase
+   * @returns Subscription потока
+   */
+  public storeRecipes(): Subscription {
+    const recipes = this.recipeService.getRecipes();
     return this.http
       .put<Recipe[]>(
         'https://ng-recipe-book-da382-default-rtdb.firebaseio.com/recipes.json',
         recipes
       )
-      .subscribe((resp) => {
-        // console.log(resp);
-      });
+      .subscribe();
   }
 
-  fetchRecipes() {
+  /**
+   * Метод загрузки списка рецептов из базы данных Firebase.
+   * @returns Observable типа Recipe[] со списком рецептов
+   */
+  public fetchRecipes(): Observable<Recipe[]> {
     return this.http
       .get<Recipe[]>(
         'https://ng-recipe-book-da382-default-rtdb.firebaseio.com/recipes.json'
@@ -42,7 +43,7 @@ export class DataStorageService {
           });
         }),
         tap((resp) => {
-          this.recServ.setRecipes(resp);
+          this.recipeService.setRecipes(resp);
         })
       );
   }

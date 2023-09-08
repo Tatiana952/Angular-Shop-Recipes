@@ -1,15 +1,11 @@
-<div class="row">
-  <div class="col-md-4">
+<div class="row" [ngClass]="innerWidth > 768 ? 'h-100' : 'row-cols-auto'">
+  <div
+    class="col-md-5 my-recipe-list"
+    [ngClass]="innerWidth > 768 ? 'h-100' : 'mb-4 w-100'"
+  >
     <app-recipe-list></app-recipe-list>
   </div>
-  <div class="col-md-8">
-      <router-outlet></router-outlet>
-    <!-- <app-recipe-detail
-      *ngIf="selectedRec; else infoText"
-      [recipeDet]="selectedRec"
-    ></app-recipe-detail>
-    <ng-template #infoText>
-      <p>Please select a recipe</p>
-    </ng-template> -->
+  <div class="col-md-7" [ngClass]="innerWidth > 768 ? 'h-100' : 'w-100'">
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ChildrenOutletContexts } from '@angular/router';
-import { slideInAnimation } from '../shared/animations';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css'],
-
 })
 export class RecipesComponent implements OnInit {
+  public innerWidth: number;
 
-  constructor() {}
-
-
-  ngOnInit() {
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
   }
 
+  ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+  }
 }

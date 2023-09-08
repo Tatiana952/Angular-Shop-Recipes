@@ -1,36 +1,43 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Ingredient } from '../shared/ingredient.model';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Ingredient } from '../shared/models/ingredient.model';
 import { ShoppingListService } from '../services/shopping-list.service';
-import { Subject, Subscription } from 'rxjs';
-import { LoggingService } from '../logging.service';
+import { Subscription } from 'rxjs';
 import { slidingLeftAnimation } from '../shared/animations';
 
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.css'],
-  providers: [],
   animations: [slidingLeftAnimation],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
-  ingredients: Ingredient[] = [];
-  subscription: Subscription;
+  public isEditMode: boolean = false;
+  public ingredients: Ingredient[] = [];
+  private subscriptionIngredientsChanged: Subscription;
+
+  @ViewChild('ulList') ulList;
 
   constructor(private shoppingListService: ShoppingListService) {}
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.ingredients = this.shoppingListService.getShoppingList();
-    this.subscription = this.shoppingListService.ingredientsChanged.subscribe(
-      (ingredients: Ingredient[]) => {
-        this.ingredients = ingredients;
-      }
-    );
+    this.subscriptionIngredientsChanged =
+      this.shoppingListService.ingredientsChanged.subscribe(
+        (ingredients: Ingredient[]) => {
+          this.ingredients = ingredients;
+        }
+      );
   }
 
-  onEdit(i: number) {
-    this.shoppingListService.startedEditing.next(i);
+  ngOnDestroy(): void {
+    this.subscriptionIngredientsChanged.unsubscribe();
+  }
+
+  /**
+   * Метод удаляет ингредиент из списка покупок.
+   * @param i Индекс удаляемого ингредиента
+   */
+  public onDeleteIngredient(i: number): void {
+    this.shoppingListService.deleteIngredient(i);
   }
 }

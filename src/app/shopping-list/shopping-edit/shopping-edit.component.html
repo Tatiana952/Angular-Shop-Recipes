@@ -1,58 +1,136 @@
 <div class="row">
   <div class="col-xs-12">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <div class="row">
-        <div class="col-sm-5">
-          <label for="name">Название</label>
+    <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+      <div class="row mb-2">
+        <div class="col-sm-6 form-group">
+          <label for="name" class="form-label">Название</label>
           <input
             type="text"
             id="name"
             class="form-control"
             name="name"
-            ngModel
-            required
+            formControlName="name"
           />
         </div>
-        <div class="col-sm-2 form-group">
-          <label for="amount">Количество</label>
+        <div class="col-sm-3 form-group">
+          <label for="amount" class="form-label">Кол-во</label>
           <input
             type="number"
             id="amount"
-            class="form-control"
-            min="1"
+            step="0.5"
+            min="0.5"
             name="amount"
-            ngModel
-            required
-            pattern="^[0-9]+[0-9]*$"
+            formControlName="amount"
+            class="form-control"
           />
         </div>
-        <div class="col-sm-2 form-group">
-          <label for="measure">Ед. измерения</label>
+        <div class="col-sm-3 form-group">
+          <label for="measure" class="form-label">Мера</label>
           <select
-                name="measure"
-                id="measure"
-                class="form-control"
-                ngModel
-                id="measure"
-                required
-              >
-                <option
-                  *ngFor="let measureSize of measureSizes"
-                  [value]="measureSize"
-                >
-                  {{ measureSize }}
-                </option>
-              </select>
+            name="measure"
+            id="measure"
+            class="form-select"
+            formControlName="measure"
+          >
+            <option
+              *ngFor="let measureSize of measureSizes"
+              [value]="measureSize"
+            >
+              {{ measureSize }}
+            </option>
+          </select>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn-success" type="submit" [disabled]="!f.valid">
-            {{ editMode ? "Редактировать" : "Добавить" }}
-          </button>&nbsp;
-          <button class="btn btn-danger" type="button" (click)="onDelete()" *ngIf="editMode">Удалить</button>&nbsp;
-          <button class="btn btn-primary" type="button" (click)="onClear()">Очистить</button>&nbsp;
+      <div class="row" *ngIf="!ingredientForm.valid && ingredientForm.touched">
+        <div
+          class="col-xs-12"
+          *ngIf="
+            !ingredientForm.get('name').valid &&
+            ingredientForm.get('name').touched
+          "
+          [@slidingLeft]
+        >
+          <span
+            *ngIf="ingredientForm.get('name').errors?.required"
+            class="errorForm mb-2"
+          >
+            Заполнение поля "Название" обязательно.&nbsp; <br />
+          </span>
+          <span
+            *ngIf="ingredientForm.get('name').errors?.maxlength"
+            class="errorForm mb-2"
+          >
+            В поле "Название" превышено допустимое количество символов({{
+              ingredientForm.get("name").errors?.maxlength["requiredLength"]
+            }}). Вы ввели:
+            {{
+              ingredientForm.get("name").errors?.maxlength["actualLength"]
+            }}.&nbsp; <br />
+          </span>
+          <span
+            *ngIf="ingredientForm.get('name').errors?.ingredientIsForbidden"
+            class="errorForm mb-2"
+          >
+            Ингредиент "{{
+              ingredientForm.get("name").errors?.ingredientIsForbidden[
+                "actualIngredient"
+              ]
+            }}" уже имеется в списке покупок. Если хотите внести изменения, то
+            выберите его для редактирования. &nbsp; <br />
+          </span>
         </div>
+        <div
+          class="col-xs-12"
+          *ngIf="
+            !ingredientForm.get('amount').valid &&
+            ingredientForm.get('amount').touched
+          "
+          [@slidingLeft]
+        >
+          <span
+            *ngIf="ingredientForm.get('amount').errors?.required"
+            class="errorForm mb-2"
+          >
+            Заполнение поля "Количество" обязательно.&nbsp; <br />
+          </span>
+          <span
+            *ngIf="ingredientForm.get('amount').errors?.min"
+            class="errorForm mb-2"
+          >
+            Минимум можно заказать
+            {{ ingredientForm.get("amount").errors?.min["min"] }} ед. товара. Вы
+            ввели:
+            {{ ingredientForm.get("amount").errors?.min["actual"] }}.&nbsp;
+            <br />
+          </span>
+        </div>
+        <div
+          class="col-xs-12"
+          *ngIf="
+            !ingredientForm.get('measure').valid &&
+            ingredientForm.get('measure').touched
+          "
+          [@slidingLeft]
+        >
+          <span
+            *ngIf="ingredientForm.get('measure').errors?.required"
+            class="errorForm mb-2"
+          >
+            Заполнение поля "Мера" обязательно.&nbsp; <br />
+          </span>
+        </div>
+      </div>
+      <div class="d-md-block mt-3">
+        <button
+          class="btn btn-success me-1"
+          type="submit"
+          [disabled]="!ingredientForm.valid"
+        >
+          {{ editMode ? "Сохранить" : "Добавить" }}
+        </button>
+        <button class="btn btn-primary me-1" type="button" (click)="onClear()">
+          Очистить
+        </button>
       </div>
     </form>
   </div>

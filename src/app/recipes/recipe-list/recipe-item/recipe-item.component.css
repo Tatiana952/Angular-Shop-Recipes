@@ -1,3 +1,14 @@
-.searchedText{
-    background-color: yellow;
+.list-group-item {
+  margin: 5px 0;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.my-justify {
+  text-align: justify;
+}
+
+img {
+  max-height: 100px;
 }

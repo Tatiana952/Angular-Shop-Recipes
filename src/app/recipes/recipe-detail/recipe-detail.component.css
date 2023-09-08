@@ -1,0 +1,21 @@
+.dropdown-menu li a {
+    cursor: pointer;
+}
+
+.col-xs-12 .img-responsive {
+    max-height: 300px;
+}
+
+.my-image-details {
+    max-height: 450px
+}
+
+.my-justify {
+    text-align: justify;
+}
+
+@media only screen and (max-width: 768px) {
+    .my-details {
+        padding-bottom: 100px;
+    }
+}

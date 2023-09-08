@@ -14,10 +14,10 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   /**
-   * Перехватчик запросов. Перехват c изменением запроса происходит только в том случае, если пользователь авторизован (существует BehaviorSubject<User>).
-   * @param req исходный запрос
+   * Перехватчик запросов. Перехват c изменением запроса происходит только в том случае, если пользователь авторизован(существует BehaviorSubject<User>).
+   * @param req Исходный запрос
    * @param next HttpHandler
-   * @returns либо неизмененный запрос, либо модифицированный запрос (с новым параметром: {'auth': токен пользователя})
+   * @returns Либо неизмененный запрос, либо модифицированный запрос (с новым параметром: {'auth': токен пользователя})
    */
   public intercept(
     req: HttpRequest<any>,

@@ -1,0 +1,8 @@
+app-list-item-element {
+  cursor: pointer;
+}
+app-list-item-element.focused {
+  font-weight: 600;
+  color: white;
+  background-color: #0d6efd;
+}

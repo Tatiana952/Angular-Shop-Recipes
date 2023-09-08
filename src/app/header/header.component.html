@@ -1,24 +1,51 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-expand-lg fixed-top bg-body-secondary" aria-label="Main navigation">
   <div class="container-fluid">
-    <div class="navbar-header">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarTogglerDemo01"
+      aria-controls="navbarTogglerDemo01"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       <a class="navbar-brand" routerLink="/">Книга рецептов</a>
-    </div>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li routerLinkActive="active">
-          <a routerLink="/recipes" *ngIf="isAuthenticated">Рецепты</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            routerLinkActive="active"
+            class="nav-link"
+            routerLink="/recipes"
+            *ngIf="isAuthenticated"
+            >Рецепты</a
+          >
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="/shopping-list">Список покупок</a>
+        <li class="nav-item">
+          <a
+            routerLinkActive="active"
+            class="nav-link"
+            routerLink="/shopping-list"
+            >Список покупок</a
+          >
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="/auth" *ngIf="!isAuthenticated">Авторизация</a>
+        <li class="nav-item">
+          <a
+            routerLinkActive="active"
+            class="nav-link"
+            routerLink="/auth"
+            *ngIf="!isAuthenticated"
+            >Авторизация</a
+          >
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
+      <ul class="navbar-nav">
+        <li class="nav-item">
           <a
-            style="cursor: pointer"
+            class="nav-link"
+            role="button"
             (click)="onLogout()"
             *ngIf="isAuthenticated"
             >Выход</a

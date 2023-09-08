@@ -9,37 +9,36 @@ import { Subject } from 'rxjs';
 })
 export class RecipeService {
   public recipesChanged = new Subject<Recipe[]>();
-
   private recipes: Recipe[] = [];
 
   constructor(private shoppingListService: ShoppingListService) {}
 
   /**
-   * Метод устанавливает значение массива рецептов.
+   * Метод устанавливает значение локальной переменной равное массиву рецептов.
    * @param recipes Массив рецептов
    */
-  public setRecipes(recipes: Recipe[]) {
+  public setRecipes(recipes: Recipe[]): void {
     this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice());
   }
 
   /**
-   * Метод получает массива рецептов.
+   * Метод получает массив рецептов.
    * @returns Копия массива рецептов
    */
-  public getRecipes() {
+  public getRecipes(): Recipe[] {
     return this.recipes.slice();
   }
 
   /**
-   * Метод добавляет ингредиенты рецепта в список покупок
+   * Метод добавляет ингредиенты рецепта в список покупок.
    */
-  public fillShoppingList(ingredients: Ingredient[]) {
+  public fillShoppingList(ingredients: Ingredient[]): void {
     this.shoppingListService.addIngredientsToShoppingList(ingredients);
   }
 
   /**
-   * Метод получает рецепт из массива по его индексу
+   * Метод получает рецепт из массива по его индексу.
    * @param id Индекс рецепта в массиве
    * @returns Рецепт по указанному индексу
    */
@@ -48,29 +47,29 @@ export class RecipeService {
   }
 
   /**
-   * Метод добавляет новый рецепт в массив рецептов
+   * Метод добавляет новый рецепт в массив рецептов.
    * @param recipe Новый рецепт
    */
-  public addRecipe(recipe: Recipe) {
+  public addRecipe(recipe: Recipe): void {
     this.recipes.push(recipe);
     this.recipesChanged.next(this.recipes.slice());
   }
 
   /**
-   * Метод обновляет существующий рецепт из массива рецептов
+   * Метод обновляет существующий рецепт из массива рецептов.
    * @param index Индекс рецепта в массиве
-   * @param recipe Новое содержимое рецепта
+   * @param recipe Рецепт с новым описанием
    */
-  public updateRecipe(index: number, recipe: Recipe) {
+  public updateRecipe(index: number, recipe: Recipe): void {
     this.recipes[index] = recipe;
     this.recipesChanged.next(this.recipes.slice());
   }
 
   /**
-   * Метод удаляет рецепт
+   * Метод удаляет рецепт в пределах приложения.
    * @param id Индекс удаляемого рецепта в массиве рецептов
    */
-  public deleteRec(id: number) {
+  public deleteRecipe(id: number): void {
     this.recipes.splice(id, 1);
     this.recipesChanged.next(this.recipes.slice());
   }

@@ -9,6 +9,9 @@ import {
 
 const slidingTime = 500;
 
+/**
+ * Анимация плавного выезда справа налево
+ */
 export const slidingRightAnimation = trigger('slidingRight', [
   state(
     'in',
@@ -82,6 +85,10 @@ export const slidingRightAnimation = trigger('slidingRight', [
     ),
   ]),
 ]);
+
+/**
+ * Анимация плавного выезда слева направо
+ */
 export const slidingLeftAnimation = trigger('slidingLeft', [
   state(
     'in',

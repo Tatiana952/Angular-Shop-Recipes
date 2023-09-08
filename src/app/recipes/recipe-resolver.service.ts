@@ -1,7 +1,5 @@
 import {
-  ActivatedRouteSnapshot,
   ResolveFn,
-  RouterStateSnapshot,
 } from '@angular/router';
 import { Recipe } from '../shared/models/recipe.model';
 import { DataStorageService } from '../services/data-storage.service';

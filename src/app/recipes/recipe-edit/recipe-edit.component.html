@@ -1,199 +1,221 @@
-<div class="row fixed-height">
-  <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" [@slidingRight] class="recipeForm">
-      <!-- <div class="fixed-buttons"> -->
-        <div class="buttons-div">
+<div
+  [@slidingRight]
+  class="h-100 my-details"
+  [ngClass]="
+    innerWidth > 768 ? 'overflow-y-auto overflow-x-hidden pe-2 ps-2 ' : ''
+  "
+>
+  <div class="row">
+    <div class="col-xs-12">
+      <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="my-form">
+        <div class="d-md-block pt-3 pb-3 my-buttons-fixed">
           <button
             type="submit"
-            class="btn btn-success"
+            class="btn btn-success me-1"
             [disabled]="!recipeForm.valid"
           >
-            Сохранить</button
-          >&nbsp;
-          <button type="button" class="btn btn-danger" (click)="onCancel()">
-            Закрыть</button
-          >&nbsp;
+            Сохранить
+          </button>
           <button
             type="button"
-            class="btn btn-warning"
+            class="btn btn-danger me-1"
+            (click)="onCancel()"
+          >
+            Закрыть
+          </button>
+          <button
+            type="button"
+            class="btn btn-warning me-1"
             (click)="onDeleteRecipe()"
+            *ngIf="editMode"
           >
             Удалить
           </button>
         </div>
-      <!-- </div> -->
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="title">Название</label>
-            <input
-              type="text"
-              name="title"
-              formControlName="title"
-              class="form-control"
-              id="title"
-            />
-            <div
-              *ngIf="
-                !recipeForm.get('title').valid &&
-                recipeForm.get('title').touched
-              "
-            >
-              <span
-                *ngIf="recipeForm.get('title').errors?.required"
-                class="errorForm"
-                >Это поле обязательно. &nbsp;</span
-              >
-              <span
-                *ngIf="recipeForm.get('title').errors?.titleIsForbidden"
-                class="errorForm"
-                >Такой рецепт уже существует. &nbsp;</span
-              >
-              <span
-                *ngIf="recipeForm.get('title').errors?.maxlength"
-                class="errorForm"
-                >Превышено допустимое количество символов:
-                {{
-                  recipeForm.get("title").errors.maxlength["requiredLength"]
-                }}. Вы ввели:
-                {{
-                  recipeForm.get("title").errors.maxlength["actualLength"]
-                }}.&nbsp;
-              </span>
-            </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <app-success
+              [message]="successMessage"
+              *ngIf="successMessage"
+              [@slidingRight]
+            ></app-success>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="imagePath">Ссылка на фото блюда</label>
-            <input
-              type="url"
-              name="imagePath"
-              class="form-control"
-              id="imagePath"
-              formControlName="imagePath"
-              #imagePath
-            />
-            <div
-              *ngIf="
-                !recipeForm.get('imagePath').valid &&
-                recipeForm.get('imagePath').touched
-              "
-            >
-              <span
-                *ngIf="recipeForm.get('imagePath').errors?.required"
-                class="errorForm"
-                >Это поле обязательно</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row" [@slidingRight] *ngIf="imagePath.value">
-        <div class="col-xs-12 center-image">
-          <img [src]="imagePath.value" alt="" class="img-responsive" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="description">Описание</label>
-            <textarea
-              type="text"
-              name="description"
-              class="form-control"
-              id="description"
-              formControlName="description"
-              rows="6"
-            ></textarea>
-            <div
-              *ngIf="
-                !recipeForm.get('description').valid &&
-                recipeForm.get('description').touched
-              "
-            >
-              <span
-                *ngIf="recipeForm.get('description').errors?.required"
-                class="errorForm"
-                >Это поле обязательно</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <hr /> -->
-      <div class="row">
-        <div class="col-xs-12">
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="onAddIngredient()"
-          >
-            Добавить новый ингредиент
-          </button>
-        </div>
-      </div>
-      <!-- <hr /> -->
-
-      <div class="row">
-        <div class="col-xs-12" formArrayName="ingredients">
-          <div
-            class="row"
-            *ngFor="
-              let ingr of recipeForm.get('ingredients')['controls'];
-              let i = index
-            "
-            [formGroupName]="i"
-            style="margin-top: 10px"
-            [@slidingRight]
-          >
-            <div class="col-xs-5">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group mb-2">
+              <label for="title" class="form-label">Название</label>
               <input
                 type="text"
+                name="title"
+                formControlName="title"
                 class="form-control"
-                formControlName="name"
-                id="name"
+                id="title"
               />
-            </div>
-            <div class="col-xs-2">
-              <input
-                type="number"
-                step="0.5"
-                min="0.5"
-                class="form-control"
-                formControlName="amount"
-                id="amount"
-              />
-            </div>
-            <div class="col-xs-3">
-              <select
-                name="measure"
-                class="form-control"
-                formControlName="measure"
-                id="measure"
+              <div
+                *ngIf="
+                  !recipeForm.get('title').valid &&
+                  recipeForm.get('title').touched
+                "
               >
-                <option
-                  *ngFor="let measureSize of measureSizes"
-                  [value]="measureSize"
+                <span
+                  *ngIf="recipeForm.get('title').errors?.required"
+                  class="errorForm"
+                  >Это поле обязательно. &nbsp;</span
                 >
-                  {{ measureSize }}
-                </option>
-              </select>
-            </div>
-            <div class="col-xs-2">
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="onDeleteIngredient(i)"
-              >
-                X
-              </button>
+                <span
+                  *ngIf="recipeForm.get('title').errors?.titleIsForbidden"
+                  class="errorForm"
+                  >Такой рецепт уже существует. &nbsp;</span
+                >
+                <span
+                  *ngIf="recipeForm.get('title').errors?.maxlength"
+                  class="errorForm"
+                  >Превышено допустимое количество символов:
+                  {{
+                    recipeForm.get("title").errors.maxlength["requiredLength"]
+                  }}. Вы ввели:
+                  {{
+                    recipeForm.get("title").errors.maxlength["actualLength"]
+                  }}.&nbsp;
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group mb-2">
+              <label for="imagePath" class="form-label"
+                >Ссылка на фото блюда</label
+              >
+              <input
+                type="url"
+                name="imagePath"
+                class="form-control"
+                id="imagePath"
+                formControlName="imagePath"
+                #imagePath
+              />
+              <div
+                *ngIf="
+                  !recipeForm.get('imagePath').valid &&
+                  recipeForm.get('imagePath').touched
+                "
+              >
+                <span
+                  *ngIf="recipeForm.get('imagePath').errors?.required"
+                  class="errorForm"
+                  >Это поле обязательно</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" [@slidingRight] *ngIf="imagePath.value">
+          <div class="col-xs-12 d-flex justify-content-center">
+            <img
+              [src]="imagePath.value"
+              alt=""
+              class="img-fluid my-image-details"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group mb-2">
+              <label for="description" class="form-label">Описание</label>
+              <textarea
+                type="text"
+                name="description"
+                class="form-control"
+                id="description"
+                formControlName="description"
+                rows="5"
+              ></textarea>
+              <div
+                *ngIf="
+                  !recipeForm.get('description').valid &&
+                  recipeForm.get('description').touched
+                "
+              >
+                <span
+                  *ngIf="recipeForm.get('description').errors?.required"
+                  class="errorForm"
+                  >Это поле обязательно</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="onAddIngredient()"
+            >
+              Добавить новый ингредиент
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 mt-2" formArrayName="ingredients">
+            <div
+              class="row mb-1"
+              *ngFor="
+                let ingr of recipeForm.get('ingredients')['controls'];
+                let i = index
+              "
+              [formGroupName]="i"
+              [@slidingRight]
+            >
+              <div class="col-5">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="name"
+                  id="name"
+                />
+              </div>
+              <div class="col-2">
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0.5"
+                  class="form-control"
+                  formControlName="amount"
+                  id="amount"
+                />
+              </div>
+              <div class="col-3">
+                <select
+                  name="measure"
+                  class="form-control"
+                  formControlName="measure"
+                  id="measure"
+                >
+                  <option
+                    *ngFor="let measureSize of measureSizes"
+                    [value]="measureSize"
+                  >
+                    {{ measureSize }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-2">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteIngredient(i)"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

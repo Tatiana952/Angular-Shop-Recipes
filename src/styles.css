@@ -1,0 +1,19 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  max-height: 100vh;
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 65px;
+}
+
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+a {
+  transition: all 0.2s ease-in-out;
+}

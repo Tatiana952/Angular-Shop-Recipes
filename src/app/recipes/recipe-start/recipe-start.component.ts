@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { slidingRightAnimation } from 'src/app/shared/animations';
 
 @Component({
@@ -7,4 +7,15 @@ import { slidingRightAnimation } from 'src/app/shared/animations';
   styleUrls: ['./recipe-start.component.css'],
   animations: [slidingRightAnimation],
 })
-export class RecipeStartComponent {}
+export class RecipeStartComponent implements OnInit {
+  public innerWidth: number;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
+  }
+
+  ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+  }
+}

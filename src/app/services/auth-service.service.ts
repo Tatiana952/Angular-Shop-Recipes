@@ -58,7 +58,7 @@ export class AuthService {
    * @param password Пароль пользователя
    * @returns Observable POST запроса с телом ответа типа AuthResponseData
    */
-  public login(email: string, password: string) {
+  public login(email: string, password: string): Observable<AuthResponseData> {
     return this.http
       .post<AuthResponseData>(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseAPIKey}`,
@@ -84,7 +84,7 @@ export class AuthService {
   /**
    * Метод деавторизации, очищается localStorage с данными пользователя и осуществляется переход на страницу авторизации.
    */
-  public logout() {
+  public logout(): void {
     this.user.next(null);
     this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
@@ -96,9 +96,9 @@ export class AuthService {
 
   /**
    * Метод автоматической авторизации, если время жизни токена пользователя не истекло(берется из localStorage), в ином случае вызывается метод autoLogout()
-   * @returns завершение метода, если в localStorage ничего нет.
+   * @returns Завершение метода, если в localStorage ничего нет.
    */
-  public autoLogin() {
+  public autoLogin(): void {
     const userData: {
       email: string;
       id: string;
@@ -127,9 +127,9 @@ export class AuthService {
 
   /**
    * Метод автоматической деавторизации, через время = expirationTime будет вызван метод logout()
-   * @param expirationTime время в мс, которое осталось до истечения жизни токена
+   * @param expirationTime Время в мс, которое осталось до истечения жизни токена
    */
-  private autoLogout(expirationTime: number) {
+  private autoLogout(expirationTime: number): void {
     this.tokenExpirationTime = setTimeout(() => {
       this.logout();
     }, expirationTime);
@@ -147,7 +147,7 @@ export class AuthService {
     userId: string,
     token: string,
     expiresIn: number
-  ) {
+  ): void {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
@@ -156,11 +156,11 @@ export class AuthService {
   }
 
   /**
-   * Метод проброса ошибки с соответствующим описанием на русском
+   * Метод проброса ошибки с соответствующим описанием на русском.
    * @param errorResponse Ответ от сервера с ошибкой
    * @returns Оbservable, создающий экземпляр ошибки, которая незамедлительно передается потребителю
    */
-  private handleError(errorResponse: HttpErrorResponse) {
+  private handleError(errorResponse: HttpErrorResponse): Observable<never> {
     const dictionary = new Map<string, string>([
       [
         'EMAIL_EXISTS',

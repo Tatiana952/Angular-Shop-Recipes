@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Recipe } from '../../shared/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,9 +19,15 @@ import { slidingLeftAnimation } from 'src/app/shared/animations';
   animations: [slidingLeftAnimation],
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-  public recipes: Recipe[] = [];
+  public innerWidth: number;
   public search: string = null;
+  public recipes: Recipe[] = [];
   private recipesSubscription: Subscription = null;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
+  }
 
   constructor(
     private router: Router,
@@ -23,6 +36,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
     this.recipesSubscription = this.recipeService.recipesChanged.subscribe(
       (rec: Recipe[]) => {
         this.recipes = rec;
@@ -36,9 +50,9 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод перенаправляет к добавлению нового рецепта
+   * Метод перенаправляет на страницу добавления нового рецепта
    */
-  public onNewRecipe() {
+  public onNewRecipe(): void {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 }

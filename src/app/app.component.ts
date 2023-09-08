@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth-service.service';
 
 @Component({
@@ -6,15 +6,10 @@ import { AuthService } from './services/auth-service.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  title = 'shop';
-  loadedVar: any;
+export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
+
   ngOnInit(): void {
     this.authService.autoLogin();
-  }
-  ngOnDestroy(): void {}
-  onNavigate(variant: string) {
-    this.loadedVar = variant;
   }
 }

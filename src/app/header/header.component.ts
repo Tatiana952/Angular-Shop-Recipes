@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /**
    * Метод деавторизации.
    */
-  onLogout() {
+  onLogout(): void {
     this.authService.logout();
   }
 }

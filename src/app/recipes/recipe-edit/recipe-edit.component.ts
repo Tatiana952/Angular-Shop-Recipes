@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -29,9 +29,16 @@ export class RecipeEditComponent implements OnInit {
     'ст.л.',
     'по вкусу',
   ];
+  public innerWidth: number;
+  public editMode = false;
+  public successMessage = '';
 
   private id: number;
-  private editMode = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
+  }
 
   constructor(
     private router: Router,
@@ -56,6 +63,7 @@ export class RecipeEditComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
@@ -64,9 +72,9 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод инициализации формы рецепта.
+   * Метод инициализации формы для редактирования выбранного рецепта.
    */
-  private initForm() {
+  private initForm(): void {
     if (this.editMode) {
       let recipeIngredients = this.fb.array([]);
       const recipe: Recipe = this.recipeService.getRecipe(this.id);
@@ -96,10 +104,10 @@ export class RecipeEditComponent implements OnInit {
 
   /**
    * Метод отправки формы с данными о рецепте, если она корректна.
+   * В режиме редактирования обновляется выбранный существующий рецепт, иначе создается новый
    * @returns Завершение метода, если форма некорректна.
    */
-  public onSubmit() {
-    console.log(this.recipeForm);
+  public onSubmit(): void {
     this.recipeForm.disable();
     this.recipeForm.updateValueAndValidity();
     if (this.recipeForm.status === 'INVALID') {
@@ -119,6 +127,7 @@ export class RecipeEditComponent implements OnInit {
     }
 
     this.dataStorageService.storeRecipes();
+    this.handleSuccess(`Рецепт "${newRecipe.title}" был успешно сохранен`);
     this.recipeForm.enable();
     this.recipeForm.reset();
     this.recipeForm.setControl('ingredients', this.fb.array([]));
@@ -128,7 +137,7 @@ export class RecipeEditComponent implements OnInit {
   /**
    * Метод добавляет в форму пустой шаблон для нового ингредиента
    */
-  public onAddIngredient() {
+  public onAddIngredient(): void {
     (<UntypedFormArray>this.recipeForm.get('ingredients')).push(
       this.fb.group({
         name: ['', [Validators.required, Validators.maxLength(20)]],
@@ -141,27 +150,40 @@ export class RecipeEditComponent implements OnInit {
   /**
    * Метод удаляет рецепт из базы данных
    */
-  public onDeleteRecipe() {
-    this.recipeService.deleteRec(this.id);
+  public onDeleteRecipe(): void {
+    this.recipeService.deleteRecipe(this.id);
     this.dataStorageService.storeRecipes();
+    this.handleSuccess('Рецепт был удален')
     this.recipeForm.reset();
     this.recipeForm.setControl('ingredients', this.fb.array([]));
     this.editMode = false;
   }
 
   /**
-   * Метод закрывает режим редактирования и перенаправляет на уровень выше по маршруту
+   * Метод закрывает форму редактирования/создания рецепта и перенаправляет на уровень выше по маршруту
    */
-  onCancel() {
+  public onCancel(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   /**
    * Метод удаляет ингредиент из формы рецепта
-   * @param i Индекс рецепта
+   * @param i Индекс ингредиента
    */
-  onDeleteIngredient(i: number) {
+  public onDeleteIngredient(i: number): void {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(i);
+  }
+
+
+  /**
+   * Метод устанавливает текст сообщения об успешной операции
+   * @param message 
+   */
+  private handleSuccess(message: string): void {
+    this.successMessage = message;
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 2000);
   }
 
   /**

@@ -6,10 +6,10 @@ import { ShoppingListRoutingModule } from './shopping-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LoggingService } from '../logging.service';
+import { ListItemElementComponent } from './list-item-element/list-item-elment.component';
 
 @NgModule({
-  declarations: [ShoppingListComponent, ShoppingEditComponent],
+  declarations: [ShoppingListComponent, ShoppingEditComponent, ListItemElementComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -18,6 +18,5 @@ import { LoggingService } from '../logging.service';
     RouterModule,
     SharedModule,
   ],
-  // providers: [LoggingService]
 })
 export class ShoppingListModule {}

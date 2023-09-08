@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RecipeService } from './recipe.service';
 import { Recipe } from '../shared/models/recipe.model';
-import { map, tap } from 'rxjs';
+import { Observable, Subscription, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,9 @@ export class DataStorageService {
 
   /**
    * Метод сохранения списка рецептов в базу данных Firebase
-   * @returns Observable типа Recipe[]
+   * @returns Subscription потока
    */
-  public storeRecipes() {
+  public storeRecipes(): Subscription {
     const recipes = this.recipeService.getRecipes();
     return this.http
       .put<Recipe[]>(
@@ -26,9 +26,9 @@ export class DataStorageService {
 
   /**
    * Метод загрузки списка рецептов из базы данных Firebase.
-   * @returns Observable типа Recipe[]
+   * @returns Observable типа Recipe[] со списком рецептов
    */
-  public fetchRecipes() {
+  public fetchRecipes(): Observable<Recipe[]> {
     return this.http
       .get<Recipe[]>(
         'https://ng-recipe-book-da382-default-rtdb.firebaseio.com/recipes.json'

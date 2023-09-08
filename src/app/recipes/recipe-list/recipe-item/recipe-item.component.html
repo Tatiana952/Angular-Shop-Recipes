@@ -1,15 +1,15 @@
-<a style="cursor: pointer;" class="list-group-item clearfix"
-[routerLink]="[index]" routerLinkActive="active" >
+<a
+  class="list-group-item clearfix"
+  [routerLink]="[index]"
+  routerLinkActive="active"
+>
   <div class="pull-left">
     <h4 class="list-group-item-heading">{{ recipe.title }}</h4>
-    <p class="list-group-item-text">{{ recipe.description | shorten }}</p>
+    <p class="list-group-item-text my-justify">
+      {{ recipe.description | shorten }}
+    </p>
   </div>
   <span class="pull-right">
-    <img
-      [src]="recipe.imagePath"
-      alt="{{ recipe.title }}"
-      class="ing-responsive"
-      style="max-height: 100px"
-    />
+    <img [src]="recipe.imagePath" alt="{{ recipe.title }}" class="img-fluid" />
   </span>
 </a>

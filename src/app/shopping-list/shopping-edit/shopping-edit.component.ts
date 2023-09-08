@@ -1,62 +1,101 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+  FormControl,
+  UntypedFormBuilder,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
 import { ShoppingListService } from 'src/app/services/shopping-list.service';
+import { slidingLeftAnimation } from 'src/app/shared/animations';
 import { Ingredient } from 'src/app/shared/models/ingredient.model';
 
 @Component({
   selector: 'app-shopping-edit',
   templateUrl: './shopping-edit.component.html',
   styleUrls: ['./shopping-edit.component.css'],
+  animations: [slidingLeftAnimation],
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  // @ViewChild('nameInput', { static: false }) name: ElementRef;
-  // @ViewChild('amountInput', { static: false }) amount: ElementRef;
+  public measureSizes: string[] = [
+    'гр.',
+    'ст.',
+    'шт.',
+    'мл.',
+    'ч.л.',
+    'ст.л.',
+    'по вкусу',
+  ];
+  public editMode = false;
+  public onClearClick = new Subject<number>();
+  private editedItem: Ingredient;
+  private editedItemIndex: number;
+  private subscriptionShoppingListChanged: Subscription;
+  private subscriptionFormReset: Subscription;
 
-  @ViewChild('f', { static: false }) slForm: NgForm;
-  subscription: Subscription;
-  editMode = false;
-  editedItemIndex: number;
-  editedItem: Ingredient;
-  measureSizes: string[] = ['гр.', 'ст.', 'шт.', 'мл.', 'ч.л.', 'ст.л.', 'по вкусу'];
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private fb: UntypedFormBuilder
+  ) {}
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  public ingredientForm = this.fb.group({
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(20),
+        this.ingredientIsForbidden.bind(this),
+      ],
+    ],
+    amount: ['', [Validators.required]],
+    measure: ['', [Validators.required]],
+  });
 
   ngOnInit(): void {
-    this.subscription = this.shoppingListService.startedEditing.subscribe(
-      (index: number) => {
+    this.subscriptionShoppingListChanged =
+      this.shoppingListService.startedEditing.subscribe((index: number) => {
         this.editedItemIndex = index;
         this.editMode = true;
         this.editedItem = this.shoppingListService.getIngredient(
           this.editedItemIndex
         );
-        this.slForm.setValue({
-          name: this.editedItem.name,
-          amount: this.editedItem.amount,
-          measure: this.editedItem.measure
-        });
+        if (this.editedItem) {
+          this.ingredientForm.setValue({
+            name: this.editedItem.name,
+            amount: this.editedItem.amount,
+            measure: this.editedItem.measure,
+          });
+        }
+      });
+    this.subscriptionFormReset = this.shoppingListService.onFormReset.subscribe(
+      () => {
+        this.onClear();
       }
     );
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptionShoppingListChanged.unsubscribe();
+    this.subscriptionFormReset.unsubscribe();
   }
 
-  // onAdd() {
-  //   const name = this.name.nativeElement.value;
-  //   const amount = this.amount.nativeElement.value;
-  //   this.shoppingListService.addToShoppingList(new Ingredient(name, amount));
-  // }
-
-  onSubmit(form: NgForm) {
-    const value = form.value;
-    const newIngredient = new Ingredient(value.name, value.amount, value.measure);
+  /**
+   * Метод отправки значений формы в список покупок
+   * @returns Завершение метода, если форма некорректна
+   */
+  public onSubmit(): void {
+    this.ingredientForm.disable();
+    this.ingredientForm.updateValueAndValidity();
+    if (this.ingredientForm.status === 'INVALID') {
+      this.ingredientForm.enable();
+      return;
+    }
+    const value = this.ingredientForm.value;
+    const newIngredient = new Ingredient(
+      value.name,
+      value.amount,
+      value.measure
+    );
     if (this.editMode) {
       this.shoppingListService.editIngredient(
         this.editedItemIndex,
@@ -65,18 +104,45 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     } else {
       this.shoppingListService.addToShoppingList(newIngredient);
     }
-    form.reset();
+    this.ingredientForm.enable();
+    this.ingredientForm.reset();
     this.editMode = false;
   }
 
-  onClear() {
-    this.slForm.reset();
+  /**
+   * Метод очищает форму ингредиента
+   */
+  public onClear(): void {
+    this.ingredientForm.reset();
     this.editMode = false;
+    if (this.editedItemIndex || this.editedItemIndex === 0) {
+      this.shoppingListService.onClearClick.next(this.editedItemIndex);
+    }
   }
 
-  onDelete(){
-    this.shoppingListService.deleteIngredient(this.editedItemIndex);
-    this.onClear();
-
+  /**
+   * Метод проверки существования ингредиента в списке покупок по его названию
+   * @param control FormControl с названием ингредиента
+   * @returns Либо null, либо объект типа ValidationErrors с ошибкой 'ingredientIsForbidden'
+   */
+  private ingredientIsForbidden(control: FormControl): ValidationErrors {
+    if (control.value && !this.editMode) {
+      const allIngredients = this.shoppingListService.getShoppingList();
+      const title: string = control.value.trim().toLowerCase();
+      let errorExist: boolean = false;
+      allIngredients.forEach((ingredient) => {
+        if (ingredient.name.trim().toLowerCase() === title) {
+          errorExist = true;
+        }
+      });
+      if (errorExist) {
+        return {
+          ingredientIsForbidden: {
+            actualIngredient: control.value,
+          },
+        };
+      }
+    }
+    return null;
   }
 }

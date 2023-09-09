@@ -11,12 +11,12 @@
 .alert-box {
     position: fixed;
     top: 30vh;
-    left: 20vw;
-    width: 60vw;
-    padding: 60px;
+    left: 30vw;
+    width: 40vw;
+    padding: 30px;
     z-index: 100;
     background-color: white;
-    box-shadow: 0 2ps 8px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
 .alert-box-actions {

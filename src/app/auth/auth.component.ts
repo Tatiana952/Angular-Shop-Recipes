@@ -1,9 +1,9 @@
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
-import { NgForm, UntypedFormBuilder } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import {
   AuthResponseData,
   AuthService,
-} from '../services/auth-service.service';
+} from '../core/auth-service.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AlertComponent } from '../shared/alert/alert.component';
@@ -19,31 +19,31 @@ import {
   animations: [slidingLeftAnimation, slidingRightAnimation],
 })
 export class AuthComponent implements OnDestroy {
-  private closeSub: Subscription = null;
+  private closeSubscription: Subscription = null;
   public isLoginMode = true;
   public isLoading = false;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
   ) {}
 
   ngOnDestroy(): void {
-    if (this.closeSub) {
-      this.closeSub.unsubscribe();
+    if (this.closeSubscription) {
+      this.closeSubscription.unsubscribe();
     }
   }
 
   /**
-   * Метод переключения режима. Авторизация <=> Регистрация.
+   * Переключает режим. Авторизация <=> Регистрация.
    */
   public onSwitchMode(): void {
     this.isLoginMode = !this.isLoginMode;
   }
 
   /**
-   * Метод передачи данных из формы на сервер для авторизации/регистрации.
+   * Передает данные из формы на сервер для авторизации/регистрации.
    * @param authForm Форма с реквизитами для входа
    * @returns Завершение метода, если форма заполнена некорректно
    */
@@ -74,7 +74,7 @@ export class AuthComponent implements OnDestroy {
   }
 
   /**
-   * Метод создания AlertComponent c текстом конкретной ошибки авторизации.
+   * Создает AlertComponent c текстом конкретной ошибки авторизации.
    * @param errorMessage Текст описания ошибки
    */
   private showErrorAlertComponent(errorMessage: string) {
@@ -82,8 +82,8 @@ export class AuthComponent implements OnDestroy {
     alertComp.clear();
     const compRef = alertComp.createComponent(AlertComponent);
     compRef.instance.message = errorMessage;
-    this.closeSub = compRef.instance.close.subscribe(() => {
-      this.closeSub.unsubscribe();
+    this.closeSubscription = compRef.instance.close.subscribe(() => {
+      this.closeSubscription.unsubscribe();
       alertComp.clear();
     });
   }

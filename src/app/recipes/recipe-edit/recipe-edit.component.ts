@@ -8,9 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { RecipeService } from 'src/app/services/recipe.service';
+import { RecipeService } from 'src/app/core/recipe.service';
 import { Recipe } from '../../shared/models/recipe.model';
-import { DataStorageService } from 'src/app/services/data-storage.service';
+import { DataStorageService } from 'src/app/core/data-storage.service';
 import { slidingRightAnimation } from '../../shared/animations';
 
 @Component({
@@ -72,7 +72,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод инициализации формы для редактирования выбранного рецепта.
+   * Инициализация формы для редактирования выбранного рецепта.
    */
   private initForm(): void {
     if (this.editMode) {
@@ -103,7 +103,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод отправки формы с данными о рецепте, если она корректна.
+   * Отправляет форму с данными о рецепте, если она корректна.
    * В режиме редактирования обновляется выбранный существующий рецепт, иначе создается новый
    * @returns Завершение метода, если форма некорректна.
    */
@@ -135,7 +135,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод добавляет в форму пустой шаблон для нового ингредиента
+   * Добавляет в форму пустой шаблон для нового ингредиента
    */
   public onAddIngredient(): void {
     (<UntypedFormArray>this.recipeForm.get('ingredients')).push(
@@ -148,7 +148,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод удаляет рецепт из базы данных
+   * Удаляет рецепт локально и из базы данных
    */
   public onDeleteRecipe(): void {
     this.recipeService.deleteRecipe(this.id);
@@ -160,14 +160,14 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод закрывает форму редактирования/создания рецепта и перенаправляет на уровень выше по маршруту
+   * Закрывает форму редактирования/создания рецепта и перенаправляет на уровень выше по маршруту
    */
   public onCancel(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   /**
-   * Метод удаляет ингредиент из формы рецепта
+   * Удаляет ингредиент из формы рецепта
    * @param i Индекс ингредиента
    */
   public onDeleteIngredient(i: number): void {
@@ -176,7 +176,7 @@ export class RecipeEditComponent implements OnInit {
 
 
   /**
-   * Метод устанавливает текст сообщения об успешной операции
+   * Устанавливает текст сообщения об успешной операции
    * @param message 
    */
   private handleSuccess(message: string): void {
@@ -187,7 +187,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   /**
-   * Метод валидации названия рецепта. Проверяет существует ли уже рецепт с таким названием
+   * Валидирует название рецепта и проверяет существует ли уже рецепт с таким названием
    * @param control FormControl с названием рецепта
    * @returns Либо null, либо объект типа ValidationErrors с ошибкой 'titleIsForbidden'
    */

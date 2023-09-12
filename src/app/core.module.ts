@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { ShoppingListService } from './services/shopping-list.service';
-import { RecipeService } from './services/recipe.service';
+import { ShoppingListService } from './core/shopping-list.service';
+import { RecipeService } from './core/recipe.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
 

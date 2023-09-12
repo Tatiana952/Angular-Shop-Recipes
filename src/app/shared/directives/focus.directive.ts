@@ -1,16 +1,17 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { ShoppingListService } from 'src/app/services/shopping-list.service';
+import { Subscription } from 'rxjs';
+import { ShoppingListService } from 'src/app/core/shopping-list.service';
 
 @Directive({
   selector: '[appSingleFocus]',
   exportAs: 'singleFocus',
 })
 export class SingleFocusDirective implements OnInit {
+  @Input() appSingleFocus;
+
   private subscriptionOnClearClick: Subscription = null;
   private subscriptionOnDeleteIngredient: Subscription = null;
   private selection: Map<number, string> = new Map<number, string>();
-  @Input() appSingleFocus;
 
   constructor(private shoppingListService: ShoppingListService) {}
 
@@ -33,7 +34,7 @@ export class SingleFocusDirective implements OnInit {
   }
 
   /**
-   * Метод проверяет есть ли элемент с определенным индексом в коллекции selection
+   * Проверяет есть ли элемент с определенным индексом в коллекции selection
    * @param id Индекс элемента
    * @returns true, если элемент присутствует, иначе false
    */
@@ -42,7 +43,7 @@ export class SingleFocusDirective implements OnInit {
   }
 
   /**
-   * Метод убирает или добавляет элемент в коллекцию selection
+   * Убирает или добавляет элемент в коллекцию selection
    * @param id Индекс элемента
    */
   public toggleItem(id: number): void {

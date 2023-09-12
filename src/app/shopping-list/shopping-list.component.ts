@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Ingredient } from '../shared/models/ingredient.model';
-import { ShoppingListService } from '../services/shopping-list.service';
+import { ShoppingListService } from '../core/shopping-list.service';
 import { Subscription } from 'rxjs';
 import { slidingLeftAnimation } from '../shared/animations';
 
@@ -11,11 +11,11 @@ import { slidingLeftAnimation } from '../shared/animations';
   animations: [slidingLeftAnimation],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
+  @ViewChild('ulList') ulList;
   public isEditMode: boolean = false;
   public ingredients: Ingredient[] = [];
-  private subscriptionIngredientsChanged: Subscription;
 
-  @ViewChild('ulList') ulList;
+  private subscriptionIngredientsChanged: Subscription;
 
   constructor(private shoppingListService: ShoppingListService) {}
 
@@ -34,7 +34,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод удаляет ингредиент из списка покупок.
+   * Удаляет ингредиент из списка покупок.
    * @param i Индекс удаляемого ингредиента
    */
   public onDeleteIngredient(i: number): void {

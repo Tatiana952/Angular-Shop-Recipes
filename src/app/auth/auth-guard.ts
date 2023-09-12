@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
-import { AuthService } from '../services/auth-service.service';
+import { AuthService } from '../core/auth-service.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard {

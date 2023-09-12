@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
-import { ShoppingListService } from 'src/app/services/shopping-list.service';
+import { ShoppingListService } from 'src/app/core/shopping-list.service';
 import { slidingLeftAnimation } from 'src/app/shared/animations';
 import { Ingredient } from 'src/app/shared/models/ingredient.model';
 
@@ -28,6 +28,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   ];
   public editMode = false;
   public onClearClick = new Subject<number>();
+
   private editedItem: Ingredient;
   private editedItemIndex: number;
   private subscriptionShoppingListChanged: Subscription;
@@ -80,7 +81,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод отправки значений формы в список покупок
+   * Отправляет значения формы в список покупок
    * @returns Завершение метода, если форма некорректна
    */
   public onSubmit(): void {
@@ -110,7 +111,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод очищает форму ингредиента
+   * Очищает форму ингредиента
    */
   public onClear(): void {
     this.ingredientForm.reset();
@@ -121,9 +122,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод проверки существования ингредиента в списке покупок по его названию
+   * Проверяет существования ингредиента в списке покупок по его названию
    * @param control FormControl с названием ингредиента
-   * @returns Либо null, либо объект типа ValidationErrors с ошибкой 'ingredientIsForbidden'
+   * @returns Либо null, если такого ингредиента нет в списке, либо объект типа ValidationErrors с ошибкой 'ingredientIsForbidden'
    */
   private ingredientIsForbidden(control: FormControl): ValidationErrors {
     if (control.value && !this.editMode) {

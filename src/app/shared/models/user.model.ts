@@ -7,7 +7,7 @@ export class User {
   ) {}
 
   /**
-   * Метод доступа к свойству token экземпляра класса User
+   * Доступ к свойству token экземпляра класса User
    * @returns Токен, если срок его жизни не истек, в ином случае null
    */
   public get token(): string | null {

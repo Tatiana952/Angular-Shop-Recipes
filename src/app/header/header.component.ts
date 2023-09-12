@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth-service.service';
+import { AuthService } from '../core/auth-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isAuthenticated: boolean = false;
+  public isAuthenticated: boolean = false;
   private userSubscription: Subscription;
 
   constructor(private authService: AuthService) {}
@@ -24,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод деавторизации.
+   * Вызов метода деавторизации.
    */
   onLogout(): void {
     this.authService.logout();

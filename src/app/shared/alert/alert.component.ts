@@ -10,7 +10,7 @@ export class AlertComponent {
   @Output() close = new EventEmitter<void>();
 
   /**
-   * Метод возбуждает событие закрытия компонента AlertComponent
+   * Возбуждает событие закрытия компонента AlertComponent
    */
   public onClose(): void {
     this.close.emit();

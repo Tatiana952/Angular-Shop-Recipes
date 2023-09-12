@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ShortenPipe implements PipeTransform {
   /**
-   * Метод сокращения строки, если её длина превышает 120 символов
+   * Сокращает строку, если её длина превышает 120 символов
    * @param value Строка для сокращения
    * @returns Сокращенная строка или изначальная строка(если длина <= 120 символов)
    */

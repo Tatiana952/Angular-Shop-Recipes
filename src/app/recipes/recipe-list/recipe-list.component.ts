@@ -1,13 +1,11 @@
 import {
   Component,
-  ElementRef,
   HostListener,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { Recipe } from '../../shared/models/recipe.model';
-import { RecipeService } from 'src/app/services/recipe.service';
+import { RecipeService } from 'src/app/core/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { slidingLeftAnimation } from 'src/app/shared/animations';
@@ -50,7 +48,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Метод перенаправляет на страницу добавления нового рецепта
+   * Перенаправляет на страницу добавления нового рецепта
    */
   public onNewRecipe(): void {
     this.router.navigate(['new'], { relativeTo: this.route });

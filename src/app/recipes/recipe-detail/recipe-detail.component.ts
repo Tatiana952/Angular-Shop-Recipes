@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Recipe } from '../../shared/models/recipe.model';
-import { RecipeService } from 'src/app/services/recipe.service';
+import { RecipeService } from 'src/app/core/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { slidingRightAnimation } from 'src/app/shared/animations';
-import { DataStorageService } from 'src/app/services/data-storage.service';
+import { DataStorageService } from 'src/app/core/data-storage.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -38,7 +38,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   /**
-   * Метод добавляет все ингредиенты рецепта в список покупок
+   * Добавляет все ингредиенты рецепта в список покупок
    */
   public addIngredientsToShoppingList(): void {
     this.recipeService.fillShoppingList(this.recipeDetails.ingredients);
@@ -49,14 +49,14 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   /**
-   * Метод отправляет рецепт на редактирование
+   * Отправляет рецепт на редактирование
    */
   public onEditRecipe(): void {
     this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }
 
   /**
-   * Метод удаляет рецепт из базы
+   * Удаляет рецепт локально и из базы
    */
   public onDeleteRecipe(): void {
     this.recipeService.deleteRecipe(this.id);
